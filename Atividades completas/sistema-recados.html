@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Recados - Projeto Final</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  
+  <!-- Anime.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background-attachment: fixed;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .gradient-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+      opacity: 0.1;
+    }
+
+    .header-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      margin: 2rem auto;
+      max-width: 800px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+      50% { transform: translateX(100%) translateY(100%) rotate(180deg); }
+    }
+
+    .main-title {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-weight: 300;
+      font-size: 1.1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-floating {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    .form-floating label {
+      color: #666;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 12px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+      background: linear-gradient(135deg, #5a6fd8, #6a42a0);
+    }
+
+    .btn-primary:active {
+      transform: translateY(-1px);
+    }
+
+    .recados-container {
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    .recado-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      border-left: 4px solid #667eea;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .recado-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .recado-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+    }
+
+    .recado-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .recado-from {
+      font-weight: 600;
+      color: #667eea;
+      font-size: 1.1rem;
+    }
+
+    .recado-to {
+      color: #764ba2;
+      font-weight: 500;
+    }
+
+    .recado-date {
+      color: #888;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    .recado-text {
+      background: rgba(102, 126, 234, 0.05);
+      padding: 1rem;
+      border-radius: 12px;
+      border-left: 3px solid #667eea;
+      margin: 1rem 0;
+      font-style: italic;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .btn-delete {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn-delete:hover {
+      background: linear-gradient(135deg, #ff5252, #e53e3e);
+      transform: translateY(-2px);
+      color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #666;
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      color: #ddd;
+      margin-bottom: 1rem;
+    }
+
+    .stats-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .stats-number {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .validation-error {
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .is-invalid {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+
+    .floating-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 2rem;
+      }
+      
+      .form-container,
+      .header-container,
+      .recados-container,
+      .stats-container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+      
+      .recado-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body class="gradient-bg">
+  <!-- Partículas flutuantes -->
+  <div class="floating-particles"></div>
+
+  <!-- Header -->
+  <div class="header-container">
+    <h1 class="main-title">
+      <i class="fas fa-sticky-note me-3"></i>
+      Sistema de Recados
+    </h1>
+    <p class="subtitle">Gerencie seus recados de forma simples e organizada</p>
+  </div>
+
+  <!-- Estatísticas -->
+  <div class="stats-container">
+    <div class="stats-number" id="totalRecados">0</div>
+    <div>Recados Cadastrados</div>
+  </div>
+
+  <!-- Formulário -->
+  <div class="form-container">
+    <h3 class="mb-4 text-center">
+      <i class="fas fa-plus-circle me-2"></i>
+      Novo Recado
+    </h3>
+    
+    <form id="formRecado" novalidate>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="quemDeixou" name="quemDeixou" placeholder="Quem deixou o recado" required>
+            <label for="quemDeixou">
+              <i class="fas fa-user me-2"></i>
+              Quem deixou o recado
+            </label>
+            <div class="validation-error" id="errorQuemDeixou">
+              Por favor, informe quem deixou o recado.
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="paraQuem" name="paraQuem" placeholder="Para quem é o recado" required>
+            <label for="paraQuem">
+              <i class="fas fa-user-tag me-2"></i>
+              Para quem é o recado
+            </label>
+            <div class="validation-error" id="errorParaQuem">
+              Por favor, informe para quem é o recado.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-floating">
+        <textarea class="form-control" id="textoRecado" name="textoRecado" placeholder="Digite o recado aqui..." style="height: 120px" required></textarea>
+        <label for="textoRecado">
+          <i class="fas fa-comment me-2"></i>
+          Texto do recado
+        </label>
+        <div class="validation-error" id="errorTextoRecado">
+          Por favor, digite o texto do recado (mínimo 10 caracteres).
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg">
+          <i class="fas fa-save me-2"></i>
+          Salvar Recado
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Lista de Recados -->
+  <div class="recados-container">
+    <div id="listaRecados">
+      <!-- Recados serão inseridos aqui dinamicamente -->
+    </div>
+  </div>
+
+  <!-- Espaçamento final para garantir scroll -->
+  <div style="height: 100px;"></div>
+
+  <script>
+    // Sistema de Recados - JavaScript
+    class SistemaRecados {
+      constructor() {
+        this.recados = this.carregarRecados();
+        this.inicializar();
+        this.criarParticulas();
+      }
+
+      inicializar() {
+        this.renderizarRecados();
+        this.configurarFormulario();
+        this.atualizarEstatisticas();
+        this.animarHeader();
+      }
+
+      carregarRecados() {
+        try {
+          return JSON.parse(localStorage.getItem('recados')) || [];
+        } catch (error) {
+          console.error('Erro ao carregar recados:', error);
+          return [];
+        }
+      }
+
+      salvarRecados() {
+        try {
+          localStorage.setItem('recados', JSON.stringify(this.recados));
+        } catch (error) {
+          console.error('Erro ao salvar recados:', error);
+          this.mostrarNotificacao('Erro ao salvar recados', 'error');
+        }
+      }
+
+      criarRecado(quemDeixou, paraQuem, textoRecado) {
+        const novoRecado = {
+          id: Date.now() + Math.random(),
+          quemDeixou: quemDeixou.trim(),
+          paraQuem: paraQuem.trim(),
+          textoRecado: textoRecado.trim(),
+          dataHora: new Date().toLocaleString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })
+        };
+
+        this.recados.unshift(novoRecado);
+        this.salvarRecados();
+        this.renderizarRecados();
+        this.atualizarEstatisticas();
+        
+        // Animação de sucesso
+        this.mostrarNotificacao('Recado salvo com sucesso!', 'success');
+      }
+
+      removerRecado(id) {
+        const index = this.recados.findIndex(recado => recado.id === id);
+        if (index !== -1) {
+          // Animação de saída
+          const elemento = document.querySelector(`[data-id="${id}"]`);
+          if (elemento) {
+            anime({
+              targets: elemento,
+              opacity: 0,
+              translateX: -100,
+              scale: 0.8,
+              duration: 300,
+              easing: 'easeInQuad',
+              complete: () => {
+                this.recados.splice(index, 1);
+                this.salvarRecados();
+                this.renderizarRecados();
+                this.atualizarEstatisticas();
+                this.mostrarNotificacao('Recado removido!', 'info');
+              }
+            });
+          }
+        }
+      }
+
+      validarFormulario(dados) {
+        const errors = {};
+        let isValid = true;
+
+        // Limpar erros anteriores
+        document.querySelectorAll('.validation-error').forEach(error => {
+          error.style.display = 'none';
+        });
+        document.querySelectorAll('.form-control').forEach(input => {
+          input.classList.remove('is-invalid');
+        });
+
+        // Validar quem deixou
+        if (!dados.quemDeixou || dados.quemDeixou.trim().length < 2) {
+          errors.quemDeixou = 'Nome deve ter pelo menos 2 caracteres';
+          isValid = false;
+        }
+
+        // Validar para quem
+        if (!dados.paraQuem || dados.paraQuem.trim().length < 2) {
+          errors.paraQuem = 'Nome deve ter pelo menos 2 caracteres';
+          isValid = false;
+        }
+
+        // Validar texto do recado
+        if (!dados.textoRecado || dados.textoRecado.trim().length < 10) {
+          errors.textoRecado = 'Recado deve ter pelo menos 10 caracteres';
+          isValid = false;
+        }
+
+        // Mostrar erros
+        Object.keys(errors).forEach(field => {
+          const input = document.getElementById(field);
+          const errorDiv = document.getElementById(`error${field.charAt(0).toUpperCase() + field.slice(1)}`);
+          
+          if (input && errorDiv) {
+            input.classList.add('is-invalid');
+            errorDiv.textContent = errors[field];
+            errorDiv.style.display = 'block';
+            
+            // Animação de erro
+            anime({
+              targets: input,
+              translateX: [0, -10, 10, -5, 5, 0],
+              duration: 400,
+              easing: 'easeInOutQuad'
+            });
+          }
+        });
+
+        return isValid;
+      }
+
+      configurarFormulario() {
+        const form = document.getElementById('formRecado');
+        
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          const formData = new FormData(form);
+          const dados = {
+            quemDeixou: formData.get('quemDeixou'),
+            paraQuem: formData.get('paraQuem'),
+            textoRecado: formData.get('textoRecado')
+          };
+
+          if (this.validarFormulario(dados)) {
+            this.criarRecado(dados.quemDeixou, dados.paraQuem, dados.textoRecado);
+            form.reset();
+            
+            // Animação de sucesso no botão
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-check me-2"></i>Salvo!';
+            submitButton.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            
+            setTimeout(() => {
+              submitButton.innerHTML = originalText;
+              submitButton.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+            }, 2000);
+          }
+        });
+
+        // Validação em tempo real
+        const inputs = form.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+          input.addEventListener('input', () => {
+            if (input.classList.contains('is-invalid')) {
+              input.classList.remove('is-invalid');
+              const errorDiv = input.parentNode.querySelector('.validation-error');
+              if (errorDiv) {
+                errorDiv.style.display = 'none';
+              }
+            }
+          });
+        });
+      }
+
+      renderizarRecados() {
+        const container = document.getElementById('listaRecados');
+        
+        if (this.recados.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-inbox"></i>
+              <h4>Nenhum recado encontrado</h4>
+              <p>Que tal criar o primeiro recado?</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = this.recados.map(recado => `
+          <div class="recado-card" data-id="${recado.id}">
+            <div class="recado-header">
+              <div>
+                <div class="recado-from">
+                  <i class="fas fa-user-circle me-2"></i>
+                  ${recado.quemDeixou}
+                </div>
+                <div class="recado-to">
+                  <i class="fas fa-arrow-right me-2"></i>
+                  Para: ${recado.paraQuem}
+                </div>
+              </div>
+              <div class="recado-date">
+                <i class="far fa-clock me-1"></i>
+                ${recado.dataHora}
+              </div>
+            </div>
+            
+            <div class="recado-text">
+              <i class="fas fa-quote-left me-2"></i>
+              ${recado.textoRecado}
+            </div>
+            
+            <div class="text-end">
+              <button class="btn btn-delete btn-sm" onclick="sistema.removerRecado(${recado.id})">
+                <i class="fas fa-trash me-1"></i>
+                Remover
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        // Animação de entrada para novos cards
+        anime({
+          targets: '.recado-card',
+          opacity: [0, 1],
+          translateY: [30, 0],
+          scale: [0.9, 1],
+          duration: 600,
+          delay: anime.stagger(100),
+          easing: 'easeOutQuad'
+        });
+      }
+
+      atualizarEstatisticas() {
+        const totalElement = document.getElementById('totalRecados');
+        const novoTotal = this.recados.length;
+        
+        // Animação do contador
+        anime({
+          targets: { count: parseInt(totalElement.textContent) || 0 },
+          count: novoTotal,
+          duration: 1000,
+          easing: 'easeOutQuad',
+          update: function(anim) {
+            totalElement.textContent = Math.round(anim.animatables[0].target.count);
+          }
+        });
+      }
+
+      mostrarNotificacao(mensagem, tipo = 'info') {
+        // Criar elemento de notificação
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${tipo === 'success' ? 'success' : tipo === 'error' ? 'danger' : 'info'} position-fixed`;
+        notification.style.cssText = `
+          top: 20px;
+          right: 20px;
+          z-index: 9999;
+          min-width: 300px;
+          opacity: 0;
+          transform: translateX(100%);
+        `;
+        
+        const icon = tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle';
+        notification.innerHTML = `
+          <i class="fas fa-${icon} me-2"></i>
+          ${mensagem}
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animação de entrada
+        anime({
+          targets: notification,
+          opacity: 1,
+          translateX: 0,
+          duration: 300,
+          easing: 'easeOutQuad'
+        });
+        
+        // Remover após 3 segundos
+        setTimeout(() => {
+          anime({
+            targets: notification,
+            opacity: 0,
+            translateX: '100%',
+            duration: 300,
+            easing: 'easeInQuad',
+            complete: () => notification.remove()
+          });
+        }, 3000);
+      }
+
+      animarHeader() {
+        // Animação inicial do header
+        gsap.from('.header-container', {
+          duration: 1,
+          y: -100,
+          opacity: 0,
+          ease: 'bounce.out'
+        });
+
+        gsap.from('.main-title', {
+          duration: 1.2,
+          scale: 0.5,
+          opacity: 0,
+          delay: 0.3,
+          ease: 'back.out(1.7)'
+        });
+
+        gsap.from('.subtitle', {
+          duration: 1,
+          y: 20,
+          opacity: 0,
+          delay: 0.6,
+          ease: 'power2.out'
+        });
+
+        // Animação das outras seções
+        gsap.from('.stats-container, .form-container', {
+          duration: 0.8,
+          y: 50,
+          opacity: 0,
+          stagger: 0.2,
+          delay: 0.8,
+          ease: 'power2.out'
+        });
+      }
+
+      criarParticulas() {
+        const container = document.querySelector('.floating-particles');
+        const particleCount = 20;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          
+          const size = Math.random() * 4 + 1;
+          particle.style.width = size + 'px';
+          particle.style.height = size + 'px';
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.top = Math.random() * 100 + '%';
+          
+          container.appendChild(particle);
+          
+          // Animação das partículas
+          gsap.to(particle, {
+            y: -100,
+            x: Math.random() * 200 - 100,
+            opacity: 0,
+            duration: Math.random() * 3 + 2,
+            delay: Math.random() * 2,
+            repeat: -1,
+            ease: 'power1.out'
+          });
+        }
+      }
+    }
+
+    // jQuery para efeitos adicionais
+    $(document).ready(function() {
+      // Efeito de hover nos cards
+      $(document).on('mouseenter', '.recado-card', function() {
+        $(this).find('.btn-delete').fadeIn(200);
+      }).on('mouseleave', '.recado-card', function() {
+        $(this).find('.btn-delete').fadeOut(200);
+      });
+
+      // Efeito de foco nos inputs
+      $('.form-control').focus(function() {
+        $(this).parent().addClass('focused');
+      }).blur(function() {
+        $(this).parent().removeClass('focused');
+      });
+
+      // Scroll suave
+      $('a[href^="#"]').on('click', function(event) {
+        var target = $(this.getAttribute('href'));
+        if (target.length) {
+          event.preventDefault();
+          $('html, body').stop().animate({
+            scrollTop: target.offset().top - 100
+          }, 1000);
+        }
+      });
+    });
+
+    // Inicializar o sistema
+    const sistema = new SistemaRecados();
+
+    // Efeitos de parallax simples
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const particles = document.querySelectorAll('.particle');
+      
+      particles.forEach((particle, index) => {
+        const speed = (index % 3 + 1) * 0.5;
+        particle.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    });
+  </script>
+</body>
+</html>

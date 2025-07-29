@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 04 – Arrays e Objetos</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.5rem;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      animation: slideUp 0.6s ease forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-right: 1rem;
+      color: white;
+    }
+    
+    .fruits-icon { background: linear-gradient(45deg, #ff6b6b, #feca57); }
+    .person-icon { background: linear-gradient(45deg, #5f27cd, #00d2d3); }
+    .props-icon { background: linear-gradient(45deg, #ff9ff3, #f368e0); }
+    .remove-icon { background: linear-gradient(45deg, #ff3838, #ff6348); }
+    
+    .card h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    
+    input {
+      flex: 1;
+      min-width: 150px;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e1e8ed;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    button {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      min-width: 120px;
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    button:hover::before {
+      left: 100%;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .display-area {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1rem 0;
+      min-height: 60px;
+      border-left: 4px solid #667eea;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .display-area::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+    }
+    
+    .fruit-item, .info-item {
+      display: inline-block;
+      background: rgba(102, 126, 234, 0.1);
+      color: #333;
+      padding: 0.3rem 0.8rem;
+      margin: 0.2rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .message {
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin: 0.5rem 0;
+      font-weight: 500;
+      animation: slideIn 0.3s ease;
+    }
+    
+    .message.success {
+      background: rgba(40, 167, 69, 0.1);
+      color: #28a745;
+      border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+    
+    .message.error {
+      background: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      border: 1px solid rgba(220, 53, 69, 0.2);
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(-20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: rgba(102, 126, 234, 0.05);
+      border-radius: 12px;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #667eea;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+      }
+      
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .input-group {
+        flex-direction: column;
+      }
+      
+      input, button {
+        width: 100%;
+      }
+    }
+    
+    .loading {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-left: 0.5rem;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚀 Aula 04 – Arrays e Objetos</h1>
+    <p class="subtitle">Aprenda a manipular dados de forma dinâmica e interativa</p>
+  </header>
+  
+  <main>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon fruits-icon">🍎</div>
+        <h2>Gerenciar Frutas</h2>
+      </div>
+      <div class="input-group">
+        <input type="text" id="inputFruta" placeholder="Digite uma nova fruta..." maxlength="20">
+        <button id="btnAddFruta">➕ Adicionar</button>
+      </div>
+      <div class="display-area" id="frutasDisplay">
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-number" id="frutasCount">3</span>
+            <span class="stat-label">Frutas</span>
+          </div>
+        </div>
+      </div>
+      <div id="frutasMessages"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon person-icon">👤</div>
+        <h2>Informações da Pessoa</h2>
+      </div>
+      <div class="input-group">
+        <input type="number" id="inputIdade" placeholder="Nova idade..." min="1" max="120">
+        <button id="btnIdade">🔄 Alterar Idade</button>
+      </div>
+      <div class="display-area" id="pessoaDisplay"></div>
+      <div id="pessoaMessages"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon props-icon">🔍</div>
+        <h2>Explorar Propriedades</h2>
+      </div>
+      <div class="input-group">
+        <button id="btnProps">📋 Mostrar Propriedades</button>
+        <button id="btnValores">💎 Mostrar Valores</button>
+      </div>
+      <div class="display-area" id="propsDisplay"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon remove-icon">🗑️</div>
+        <h2>Remover Fruta</h2>
+      </div>
+      <div class="input-group">
+        <input type="text" id="inputRemover" placeholder="Fruta para remover..." maxlength="20">
+        <button id="btnRemover">❌ Remover</button>
+      </div>
+      <div id="removeMessages"></div>
+    </div>
+  </main>
+
+  <script>
+    // Arrays e Objetos - Aula 04
+    const frutas = ['🍎 Maçã', '🍌 Banana', '🍊 Laranja'];
+    const pessoa = { nome: '👩 Ana', idade: 22, profissao: '💻 Desenvolvedora' };
+
+    // Elementos do DOM
+    const frutasDisplay = document.getElementById('frutasDisplay');
+    const pessoaDisplay = document.getElementById('pessoaDisplay');
+    const propsDisplay = document.getElementById('propsDisplay');
+    const frutasCount = document.getElementById('frutasCount');
+
+    // Função para mostrar mensagem
+    function showMessage(containerId, message, type = 'success') {
+      const container = document.getElementById(containerId);
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}`;
+      messageDiv.textContent = message;
+      container.appendChild(messageDiv);
+      
+      setTimeout(() => {
+        messageDiv.remove();
+      }, 3000);
+    }
+
+    // Função para atualizar display das frutas
+    function updateFrutasDisplay() {
+      const statsDiv = frutasDisplay.querySelector('.stats');
+      frutasDisplay.innerHTML = '';
+      frutasDisplay.appendChild(statsDiv);
+      
+      frutasCount.textContent = frutas.length;
+      
+      frutas.forEach((fruta, index) => {
+        const frutaSpan = document.createElement('span');
+        frutaSpan.className = 'fruit-item';
+        frutaSpan.textContent = fruta;
+        frutaSpan.style.animationDelay = `${index * 0.1}s`;
+        frutasDisplay.appendChild(frutaSpan);
+      });
+    }
+
+    // Função para atualizar display da pessoa
+    function updatePessoaDisplay() {
+      pessoaDisplay.innerHTML = '';
+      Object.entries(pessoa).forEach(([key, value]) => {
+        const infoSpan = document.createElement('span');
+        infoSpan.className = 'info-item';
+        infoSpan.textContent = `${key}: ${value}`;
+        pessoaDisplay.appendChild(infoSpan);
+      });
+    }
+
+    // Inicializar displays
+    updateFrutasDisplay();
+    updatePessoaDisplay();
+
+    // Event Listeners
+    document.getElementById('btnAddFruta').addEventListener('click', () => {
+      const input = document.getElementById('inputFruta');
+      const novaFruta = input.value.trim();
+      
+      if (!novaFruta) {
+        showMessage('frutasMessages', '⚠️ Digite uma fruta!', 'error');
+        return;
+      }
+      
+      if (frutas.some(fruta => fruta.toLowerCase().includes(novaFruta.toLowerCase()))) {
+        showMessage('frutasMessages', '⚠️ Esta fruta já existe!', 'error');
+        return;
+      }
+      
+      // Adicionar emoji aleatório
+      const emojis = ['🍎', '🍌', '🍊', '🍇', '🍓', '🥝', '🍑', '🍒', '🥭', '🍍'];
+      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+      frutas.push(`${randomEmoji} ${novaFruta}`);
+      
+      updateFrutasDisplay();
+      showMessage('frutasMessages', `✅ ${novaFruta} adicionada com sucesso!`);
+      input.value = '';
+    });
+
+    document.getElementById('btnIdade').addEventListener('click', () => {
+      const input = document.getElementById('inputIdade');
+      const novaIdade = Number(input.value);
+      
+      if (isNaN(novaIdade) || novaIdade <= 0 || novaIdade > 120) {
+        showMessage('pessoaMessages', '⚠️ Idade inválida! (1-120)', 'error');
+        return;
+      }
+      
+      const idadeAnterior = pessoa.idade;
+      pessoa.idade = novaIdade;
+      updatePessoaDisplay();
+      showMessage('pessoaMessages', `✅ Idade alterada de ${idadeAnterior} para ${novaIdade} anos!`);
+      input.value = '';
+    });
+
+    document.getElementById('btnProps').addEventListener('click', () => {
+      const propriedades = Object.keys(pessoa);
+      propsDisplay.innerHTML = '<strong>🔑 Propriedades:</strong><br>';
+      propriedades.forEach((prop, index) => {
+        const propSpan = document.createElement('span');
+        propSpan.className = 'info-item';
+        propSpan.textContent = prop;
+        propSpan.style.animationDelay = `${index * 0.1}s`;
+        propsDisplay.appendChild(propSpan);
+      });
+    });
+
+    document.getElementById('btnValores').addEventListener('click', () => {
+      const valores = Object.values(pessoa);
+      propsDisplay.innerHTML = '<strong>💎 Valores:</strong><br>';
+      valores.forEach((valor, index) => {
+        const valorSpan = document.createElement('span');
+        valorSpan.className = 'info-item';
+        valorSpan.textContent = valor;
+        valorSpan.style.animationDelay = `${index * 0.1}s`;
+        propsDisplay.appendChild(valorSpan);
+      });
+    });
+
+    document.getElementById('btnRemover').addEventListener('click', () => {
+      const input = document.getElementById('inputRemover');
+      const frutaRemover = input.value.trim();
+      
+      if (!frutaRemover) {
+        showMessage('removeMessages', '⚠️ Digite uma fruta para remover!', 'error');
+        return;
+      }
+      
+      const index = frutas.findIndex(fruta => 
+        fruta.toLowerCase().includes(frutaRemover.toLowerCase())
+      );
+      
+      if (index === -1) {
+        showMessage('removeMessages', '⚠️ Fruta não encontrada!', 'error');
+        return;
+      }
+      
+      const frutaRemovida = frutas.splice(index, 1)[0];
+      updateFrutasDisplay();
+      showMessage('removeMessages', `✅ ${frutaRemovida} removida com sucesso!`);
+      input.value = '';
+    });
+
+    // Event listeners para Enter
+    document.getElementById('inputFruta').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('btnAddFruta').click();
+    });
+
+    document.getElementById('inputIdade').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('btnIdade').click();
+    });
+
+    document.getElementById('inputRemover').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('btnRemover').click();
+    });
+
+    // Exportando para próxima aula
+    window.exportedData = { frutas, pessoa };
+  </script>
+</body>
+</html>

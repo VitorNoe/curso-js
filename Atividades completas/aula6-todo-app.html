@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 06 – Projeto Mini</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    
+    h1 {
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: rgba(255,255,255,0.8);
+      font-size: 1.1rem;
+      font-weight: 300;
+    }
+    
+    .todo-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    
+    .input-section {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .input-wrapper {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e1e5e9;
+      border-radius: 50px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    input[type="text"]:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+      transform: scale(1.02);
+    }
+    
+    .btn-add {
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 140px;
+      justify-content: center;
+    }
+    
+    .btn-add:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-add:active {
+      transform: translateY(-1px);
+    }
+    
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      padding: 8px 20px;
+      border: 2px solid #e1e5e9;
+      background: white;
+      color: #666;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .filter-btn.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .filter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .tasks-container {
+      min-height: 300px;
+    }
+    
+    .task-item {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      border-left: 4px solid #667eea;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    
+    .task-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+    
+    .task-item.completed {
+      opacity: 0.7;
+      border-left-color: #4ade80;
+    }
+    
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+      color: #888;
+    }
+    
+    .task-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #e1e5e9;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .task-checkbox.checked {
+      background: #4ade80;
+      border-color: #4ade80;
+      color: white;
+    }
+    
+    .task-text {
+      flex: 1;
+      font-size: 16px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+    
+    .task-text.editing {
+      background: #f8fafc;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      padding: 8px 12px;
+      outline: none;
+    }
+    
+    .task-actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    
+    .btn-action {
+      width: 35px;
+      height: 35px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .btn-edit {
+      background: #f59e0b;
+      color: white;
+    }
+    
+    .btn-edit:hover {
+      background: #d97706;
+      transform: scale(1.1);
+    }
+    
+    .btn-delete {
+      background: #ef4444;
+      color: white;
+    }
+    
+    .btn-delete:hover {
+      background: #dc2626;
+      transform: scale(1.1);
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #f1f5f9;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+    
+    .empty-state i {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+    
+    .empty-state h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e1e5e9;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4ade80, #22c55e);
+      width: 0%;
+      transition: width 0.5s ease;
+      border-radius: 4px;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .todo-container {
+        padding: 25px;
+      }
+      
+      .input-section {
+        flex-direction: column;
+      }
+      
+      .input-wrapper {
+        min-width: auto;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .task-item {
+        padding: 15px;
+      }
+      
+      .stats {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+    }
+    
+    /* Animações personalizadas */
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+      20%, 40%, 60%, 80% { transform: translateX(3px); }
+    }
+    
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-tasks"></i> Mini To-Do List</h1>
+      <p class="subtitle">Organize suas tarefas com estilo</p>
+    </header>
+    
+    <div class="todo-container">
+      <div class="input-section">
+        <div class="input-wrapper">
+          <input type="text" id="taskInput" placeholder="Digite sua nova tarefa...">
+        </div>
+        <button class="btn-add" id="addBtn">
+          <i class="fas fa-plus"></i>
+          Adicionar
+        </button>
+      </div>
+      
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Todas</button>
+        <button class="filter-btn" data-filter="pending">Pendentes</button>
+        <button class="filter-btn" data-filter="completed">Concluídas</button>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      
+      <div class="tasks-container" id="tasksContainer">
+        <div class="empty-state" id="emptyState">
+          <i class="fas fa-clipboard-list"></i>
+          <h3>Nenhuma tarefa ainda</h3>
+          <p>Adicione sua primeira tarefa para começar!</p>
+        </div>
+      </div>
+      
+      <div class="stats">
+        <span>Total: <strong id="totalTasks">0</strong></span>
+        <span>Concluídas: <strong id="completedTasks">0</strong></span>
+        <span>Pendentes: <strong id="pendingTasks">0</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts das bibliotecas de animação -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  
+  <script>
+    // Classe principal do To-Do List
+    class TodoApp {
+      constructor() {
+        this.tasks = this.loadTasks();
+        this.currentFilter = 'all';
+        this.editingIndex = -1;
+        
+        this.initElements();
+        this.bindEvents();
+        this.initAnimations();
+        this.render();
+        this.updateStats();
+      }
+      
+      initElements() {
+        this.taskInput = document.getElementById('taskInput');
+        this.addBtn = document.getElementById('addBtn');
+        this.tasksContainer = document.getElementById('tasksContainer');
+        this.emptyState = document.getElementById('emptyState');
+        this.filterBtns = document.querySelectorAll('.filter-btn');
+        this.totalTasks = document.getElementById('totalTasks');
+        this.completedTasks = document.getElementById('completedTasks');
+        this.pendingTasks = document.getElementById('pendingTasks');
+        this.progressFill = document.getElementById('progressFill');
+      }
+      
+      bindEvents() {
+        // Adicionar tarefa
+        this.addBtn.addEventListener('click', () => this.addTask());
+        this.taskInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') this.addTask();
+        });
+        
+        // Filtros
+        this.filterBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            this.setFilter(e.target.dataset.filter);
+          });
+        });
+        
+        // Auto-save
+        window.addEventListener('beforeunload', () => this.saveTasks());
+      }
+      
+      initAnimations() {
+        // Animação inicial da página
+        gsap.set('header', { opacity: 0, y: -50 });
+        gsap.set('.todo-container', { opacity: 0, y: 50 });
+        
+        gsap.to('header', { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1, 
+          ease: "back.out(1.7)" 
+        });
+        
+        gsap.to('.todo-container', { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1, 
+          delay: 0.3, 
+          ease: "power3.out" 
+        });
+        
+        // Animação de fundo flutuante
+        this.createFloatingElements();
+      }
+      
+      createFloatingElements() {
+        for (let i = 0; i < 10; i++) {
+          const element = document.createElement('div');
+          element.style.cssText = `
+            position: fixed;
+            width: ${Math.random() * 10 + 5}px;
+            height: ${Math.random() * 10 + 5}px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+          `;
+          document.body.appendChild(element);
+          
+          gsap.set(element, {
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight
+          });
+          
+          gsap.to(element, {
+            y: -100,
+            duration: Math.random() * 10 + 10,
+            repeat: -1,
+            ease: "none"
+          });
+        }
+      }
+      
+      addTask() {
+        const text = this.taskInput.value.trim();
+        
+        if (!text) {
+          this.shakeInput();
+          return;
+        }
+        
+        const task = {
+          id: Date.now(),
+          text: text,
+          completed: false,
+          createdAt: new Date().toISOString()
+        };
+        
+        this.tasks.unshift(task);
+        this.taskInput.value = '';
+        this.saveTasks();
+        this.render();
+        this.updateStats();
+        
+        // Animação de sucesso
+        this.animateAddButton();
+      }
+      
+      shakeInput() {
+        this.taskInput.classList.add('shake');
+        this.taskInput.focus();
+        
+        // Animação com GSAP
+        gsap.to(this.taskInput, {
+          x: [-10, 10, -10, 10, 0],
+          duration: 0.4,
+          ease: "power2.inOut"
+        });
+        
+        setTimeout(() => {
+          this.taskInput.classList.remove('shake');
+        }, 500);
+      }
+      
+      animateAddButton() {
+        // Animação do botão com Anime.js
+        anime({
+          targets: this.addBtn,
+          scale: [1, 1.1, 1],
+          rotateZ: [0, 5, -5, 0],
+          duration: 600,
+          easing: 'easeInOutQuad'
+        });
+      }
+      
+      toggleTask(index) {
+        const task = this.tasks[index];
+        task.completed = !task.completed;
+        
+        this.saveTasks();
+        this.updateStats();
+        
+        // Animação de conclusão
+        const taskElement = this.tasksContainer.children[index];
+        if (task.completed) {
+          this.animateTaskCompletion(taskElement);
+        }
+        
+        this.render();
+      }
+      
+      animateTaskCompletion(element) {
+        // Animação com GSAP
+        gsap.to(element, {
+          scale: 1.05,
+          duration: 0.2,
+          yoyo: true,
+          repeat: 1,
+          ease: "power2.inOut"
+        });
+        
+        // Confete com Anime.js
+        this.createConfetti(element);
+      }
+      
+      createConfetti(element) {
+        const rect = element.getBoundingClientRect();
+        const colors = ['#667eea', '#764ba2', '#4ade80', '#f59e0b'];
+        
+        for (let i = 0; i < 15; i++) {
+          const confetti = document.createElement('div');
+          confetti.style.cssText = `
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            left: ${rect.left + rect.width / 2}px;
+            top: ${rect.top + rect.height / 2}px;
+          `;
+          document.body.appendChild(confetti);
+          
+          anime({
+            targets: confetti,
+            translateX: (Math.random() - 0.5) * 200,
+            translateY: Math.random() * -150 - 50,
+            scale: [1, 0],
+            opacity: [1, 0],
+            duration: 1000,
+            easing: 'easeOutCubic',
+            complete: () => confetti.remove()
+          });
+        }
+      }
+      
+      deleteTask(index) {
+        const taskElement = this.tasksContainer.children[index];
+        
+        // Animação de remoção
+        gsap.to(taskElement, {
+          x: 300,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.inOut",
+          onComplete: () => {
+            this.tasks.splice(index, 1);
+            this.saveTasks();
+            this.render();
+            this.updateStats();
+          }
+        });
+      }
+      
+      editTask(index) {
+        if (this.editingIndex === index) {
+          // Salvar edição
+          const taskElement = this.tasksContainer.children[index];
+          const textElement = taskElement.querySelector('.task-text');
+          const newText = textElement.textContent.trim();
+          
+          if (newText) {
+            this.tasks[index].text = newText;
+            this.saveTasks();
+          }
+          
+          textElement.contentEditable = false;
+          textElement.classList.remove('editing');
+          this.editingIndex = -1;
+        } else {
+          // Iniciar edição
+          this.editingIndex = index;
+          const taskElement = this.tasksContainer.children[index];
+          const textElement = taskElement.querySelector('.task-text');
+          
+          textElement.contentEditable = true;
+          textElement.classList.add('editing');
+          textElement.focus();
+          
+          // Selecionar todo o texto
+          const range = document.createRange();
+          range.selectNodeContents(textElement);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      }
+      
+      setFilter(filter) {
+        this.currentFilter = filter;
+        
+        // Atualizar botões de filtro
+        this.filterBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.filter === filter);
+        });
+        
+        this.render();
+      }
+      
+      getFilteredTasks() {
+        switch (this.currentFilter) {
+          case 'completed':
+            return this.tasks.filter(task => task.completed);
+          case 'pending':
+            return this.tasks.filter(task => !task.completed);
+          default:
+            return this.tasks;
+        }
+      }
+      
+      render() {
+        const filteredTasks = this.getFilteredTasks();
+        
+        if (filteredTasks.length === 0) {
+          this.tasksContainer.innerHTML = '';
+          this.tasksContainer.appendChild(this.emptyState);
+          return;
+        }
+        
+        this.tasksContainer.innerHTML = '';
+        
+        filteredTasks.forEach((task, filteredIndex) => {
+          const originalIndex = this.tasks.indexOf(task);
+          const taskElement = this.createTaskElement(task, originalIndex);
+          this.tasksContainer.appendChild(taskElement);
+          
+          // Animação de entrada
+          gsap.set(taskElement, { opacity: 0, x: -50 });
+          gsap.to(taskElement, {
+            opacity: 1,
+            x: 0,
+            duration: 0.5,
+            delay: filteredIndex * 0.1,
+            ease: "power2.out"
+          });
+        });
+      }
+      
+      createTaskElement(task, index) {
+        const taskDiv = document.createElement('div');
+        taskDiv.className = `task-item ${task.completed ? 'completed' : ''}`;
+        
+        taskDiv.innerHTML = `
+          <div class="task-checkbox ${task.completed ? 'checked' : ''}" 
+               onclick="todoApp.toggleTask(${index})">
+            ${task.completed ? '<i class="fas fa-check"></i>' : ''}
+          </div>
+          <div class="task-text">${task.text}</div>
+          <div class="task-actions">
+            <button class="btn-action btn-edit" onclick="todoApp.editTask(${index})" 
+                    title="Editar">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-action btn-delete" onclick="todoApp.deleteTask(${index})" 
+                    title="Excluir">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        `;
+        
+        return taskDiv;
+      }
+      
+      updateStats() {
+        const total = this.tasks.length;
+        const completed = this.tasks.filter(task => task.completed).length;
+        const pending = total - completed;
+        const progress = total > 0 ? (completed / total) * 100 : 0;
+        
+        this.totalTasks.textContent = total;
+        this.completedTasks.textContent = completed;
+        this.pendingTasks.textContent = pending;
+        
+        // Animação da barra de progresso
+        gsap.to(this.progressFill, {
+          width: `${progress}%`,
+          duration: 0.8,
+          ease: "power2.out"
+        });
+      }
+      
+      saveTasks() {
+        try {
+          localStorage.setItem('todoTasks', JSON.stringify(this.tasks));
+        } catch (error) {
+          console.warn('Não foi possível salvar no localStorage:', error);
+        }
+      }
+      
+      loadTasks() {
+        try {
+          const saved = localStorage.getItem('todoTasks');
+          return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+          console.warn('Não foi possível carregar do localStorage:', error);
+          return [];
+        }
+      }
+    }
+    
+    // Inicializar a aplicação
+    let todoApp;
+    document.addEventListener('DOMContentLoaded', () => {
+      todoApp = new TodoApp();
+    });
+    
+    // Exportar para módulos (se necessário)
+    if (typeof module !== 'undefined' && module.exports) {
+      module.exports = { TodoApp };
+    }
+  </script>
+</body>
+</html>

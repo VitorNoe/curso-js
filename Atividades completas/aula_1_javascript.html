@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 01 – Introdução ao JavaScript</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 2rem 0;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+
+    main {
+      padding: 3rem 0;
+    }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .lesson-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .lesson-card h2 {
+      color: #4f46e5;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .exercise-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .exercise-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .exercise-number {
+      background: #4f46e5;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .exercise-title {
+      font-size: 1.3rem;
+      color: #1f2937;
+      font-weight: 600;
+    }
+
+    .exercise-content {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #4f46e5;
+    }
+
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      border-radius: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border: 1px solid #334155;
+    }
+
+    .console-output {
+      background: #0f172a;
+      color: #10b981;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      border: 1px solid #1e293b;
+    }
+
+    .console-output::before {
+      content: "Console Output:";
+      color: #6b7280;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #6b7280, #4b5563);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .challenge-section {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #92400e;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .challenge-section h2 {
+      color: #92400e;
+      margin-bottom: 1rem;
+    }
+
+    .challenge-item {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-left: 4px solid #d97706;
+    }
+
+    .interactive-demo {
+      background: #f0f9ff;
+      border: 2px solid #0ea5e9;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .demo-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .demo-input:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .result-display {
+      background: #ecfdf5;
+      border: 1px solid #10b981;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #065f46;
+    }
+
+    .tips {
+      background: #f0f9ff;
+      border-left: 4px solid #0ea5e9;
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1rem 0;
+    }
+
+    .tips strong {
+      color: #0369a1;
+    }
+
+    @media (max-width: 768px) {
+      .lesson-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .lesson-card, .exercise-section {
+        padding: 1.5rem;
+      }
+    }
+
+    .highlight {
+      background: #fef3c7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #92400e;
+      font-weight: 500;
+    }
+
+    .syntax-highlight .keyword { color: #c792ea; }
+    .syntax-highlight .string { color: #c3e88d; }
+    .syntax-highlight .number { color: #f78c6c; }
+    .syntax-highlight .comment { color: #546e7a; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>📚 Aula 01 – Introdução ao JavaScript</h1>
+      <p class="subtitle">Aprenda os fundamentos da linguagem mais popular da web</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- Objetivos de Aprendizagem -->
+      <div class="lesson-grid">
+        <div class="lesson-card">
+          <h2>🎯 Objetivos</h2>
+          <ul>
+            <li>Entender o que é JavaScript</li>
+            <li>Executar JS no navegador</li>
+            <li>Usar o console do navegador</li>
+            <li>Trabalhar com variáveis e tipos</li>
+          </ul>
+        </div>
+        
+        <div class="lesson-card">
+          <h2>📋 Conteúdo</h2>
+          <ul>
+            <li><span class="highlight">&lt;script&gt;</span></li>
+            <li><span class="highlight">console.log()</span></li>
+            <li>Tipos: string, number, boolean</li>
+            <li>Operadores aritméticos e lógicos</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Exercício 1 -->
+      <div class="exercise-section">
+        <div class="exercise-header">
+          <div class="exercise-number">1</div>
+          <div class="exercise-title">Primeiro "Olá, mundo!"</div>
+        </div>
+        
+        <div class="exercise-content">
+          <p><strong>Enunciado:</strong> Crie um script que mostre "Olá, mundo!" no console.</p>
+          
+          <div class="code-block syntax-highlight">
+<span class="comment">// Exercício 1: Primeira mensagem</span>
+<span class="keyword">console</span>.<span class="keyword">log</span>(<span class="string">'Olá, mundo!'</span>);
+          </div>
+          
+          <div class="console-output" id="output1">
+> Olá, mundo!
+          </div>
+          
+          <div class="tips">
+            <strong>💡 Dica:</strong> Abra o console do navegador (F12) para ver a saída real do código!
+          </div>
+        </div>
+        
+        <button class="btn" onclick="runExercise1()">▶️ Executar Exercício 1</button>
+        <button class="btn btn-secondary" onclick="openConsole()">🔧 Abrir Console</button>
+      </div>
+
+      <!-- Exercício 2 -->
+      <div class="exercise-section">
+        <div class="exercise-header">
+          <div class="exercise-number">2</div>
+          <div class="exercise-title">Trabalhando com Variáveis</div>
+        </div>
+        
+        <div class="exercise-content">
+          <p><strong>Enunciado:</strong> Crie três variáveis: nome, idade e estudante. Atribua valores e mostre-os no console.</p>
+          
+          <div class="code-block syntax-highlight">
+<span class="comment">// Exercício 2: Declarando variáveis</span>
+<span class="keyword">const</span> nome = <span class="string">'Maria'</span>;
+<span class="keyword">let</span> idade = <span class="number">20</span>;
+<span class="keyword">const</span> estudante = <span class="keyword">true</span>;
+
+<span class="keyword">console</span>.<span class="keyword">log</span>(<span class="string">'Nome:'</span>, nome);
+<span class="keyword">console</span>.<span class="keyword">log</span>(<span class="string">'Idade:'</span>, idade);
+<span class="keyword">console</span>.<span class="keyword">log</span>(<span class="string">'É estudante:'</span>, estudante);
+          </div>
+          
+          <div class="console-output" id="output2">
+> Nome: Maria
+> Idade: 20  
+> É estudante: true
+          </div>
+          
+          <div class="tips">
+            <strong>💡 Dica:</strong> Use <span class="highlight">const</span> para valores que não mudam e <span class="highlight">let</span> para valores que podem mudar.
+          </div>
+        </div>
+        
+        <button class="btn" onclick="runExercise2()">▶️ Executar Exercício 2</button>
+      </div>
+
+      <!-- Exercício 3 -->
+      <div class="exercise-section">
+        <div class="exercise-header">
+          <div class="exercise-number">3</div>
+          <div class="exercise-title">Operações Matemáticas</div>
+        </div>
+        
+        <div class="exercise-content">
+          <p><strong>Enunciado:</strong> Some dois números e mostre o resultado no console.</p>
+          
+          <div class="code-block syntax-highlight">
+<span class="comment">// Exercício 3: Operações matemáticas</span>
+<span class="keyword">const</span> num1 = <span class="number">10</span>;
+<span class="keyword">const</span> num2 = <span class="number">15</span>;
+<span class="keyword">const</span> soma = num1 + num2;
+
+<span class="keyword">console</span>.<span class="keyword">log</span>(<span class="string">'Primeiro número:'</span>, num1);
+<span class="keyword">console</span>.<span class="keyword">log</span>(<span class="string">'Segundo número:'</span>, num2);
+<span class="keyword">console</span>.<span class="keyword">log</span>(<span class="string">'Soma:'</span>, soma);
+          </div>
+          
+          <div class="console-output" id="output3">
+> Primeiro número: 10
+> Segundo número: 15
+> Soma: 25
+          </div>
+          
+          <div class="interactive-demo">
+            <h4>🧮 Teste interativo:</h4>
+            <input type="number" id="num1Input" class="demo-input" placeholder="Digite o primeiro número" value="10">
+            <input type="number" id="num2Input" class="demo-input" placeholder="Digite o segundo número" value="15">
+            <button class="btn btn-success" onclick="calculateSum()">Calcular Soma</button>
+            <div class="result-display" id="sumResult">Resultado aparecerá aqui</div>
+          </div>
+        </div>
+        
+        <button class="btn" onclick="runExercise3()">▶️ Executar Exercício 3</button>
+      </div>
+
+      <!-- Desafios Extras -->
+      <div class="challenge-section">
+        <h2>🚀 Desafios Extras</h2>
+        
+        <div class="challenge-item">
+          <h3>Desafio 1: Dobrar um Número</h3>
+          <p>Peça para o usuário digitar um número usando <span class="highlight">prompt()</span> e mostre o dobro no console.</p>
+          <button class="btn" onclick="runChallenge1()">🎯 Testar Desafio 1</button>
+        </div>
+        
+        <div class="challenge-item">
+          <h3>Desafio 2: Verificar Maioridade</h3>
+          <p>Mostre no console se a idade digitada é maior ou menor que 18.</p>
+          <button class="btn" onclick="runChallenge2()">🎯 Testar Desafio 2</button>
+        </div>
+        
+        <div class="challenge-item">
+          <h3>Desafio 3: Calculadora Simples</h3>
+          <p>Crie uma calculadora que soma, subtrai, multiplica e divide dois números.</p>
+          <div class="interactive-demo">
+            <input type="number" id="calc1" class="demo-input" placeholder="Primeiro número" value="0">
+            <select id="operation" class="demo-input">
+              <option value="+">Soma (+)</option>
+              <option value="-">Subtração (-)</option>
+              <option value="*">Multiplicação (×)</option>
+              <option value="/">Divisão (÷)</option>
+            </select>
+            <input type="number" id="calc2" class="demo-input" placeholder="Segundo número" value="0">
+            <button class="btn btn-success" onclick="runCalculator()">Calcular</button>
+            <div class="result-display" id="calcResult">Resultado aparecerá aqui</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links de Referência -->
+      <div class="lesson-card" style="margin-top: 2rem;">
+        <h2>📚 Links de Referência</h2>
+        <ul>
+          <li><a href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Introduction" target="_blank">MDN – Introdução ao JavaScript</a></li>
+          <li><a href="https://www.w3schools.com/js/js_intro.asp" target="_blank">W3Schools – JS Introduction</a></li>
+          <li><a href="https://javascript.info/" target="_blank">JavaScript.info – Tutorial Moderno</a></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Dados para os exercícios
+    const dados = {
+      nome: 'Maria',
+      idade: 20,
+      estudante: true
+    };
+
+    // Função para executar exercício 1
+    function runExercise1() {
+      console.log('🎯 Executando Exercício 1:');
+      console.log('Olá, mundo!');
+      
+      // Atualizar display
+      document.getElementById('output1').innerHTML = '> Olá, mundo!<br>✅ Exercício executado com sucesso!';
+      
+      // Mostrar notificação
+      showNotification('Exercício 1 executado! Verifique o console (F12)', 'success');
+    }
+
+    // Função para executar exercício 2
+    function runExercise2() {
+      console.log('🎯 Executando Exercício 2:');
+      console.log('Nome:', dados.nome);
+      console.log('Idade:', dados.idade);
+      console.log('É estudante:', dados.estudante);
+      
+      // Atualizar display
+      document.getElementById('output2').innerHTML = 
+        `> Nome: ${dados.nome}<br>` +
+        `> Idade: ${dados.idade}<br>` +
+        `> É estudante: ${dados.estudante}<br>` +
+        '✅ Exercício executado com sucesso!';
+      
+      showNotification('Exercício 2 executado! Verifique o console (F12)', 'success');
+    }
+
+    // Função para executar exercício 3
+    function runExercise3() {
+      const num1 = 10;
+      const num2 = 15;
+      const soma = num1 + num2;
+      
+      console.log('🎯 Executando Exercício 3:');
+      console.log('Primeiro número:', num1);
+      console.log('Segundo número:', num2);
+      console.log('Soma:', soma);
+      
+      // Atualizar display
+      document.getElementById('output3').innerHTML = 
+        `> Primeiro número: ${num1}<br>` +
+        `> Segundo número: ${num2}<br>` +
+        `> Soma: ${soma}<br>` +
+        '✅ Exercício executado com sucesso!';
+      
+      showNotification('Exercício 3 executado! Verifique o console (F12)', 'success');
+    }
+
+    // Função para calcular soma interativa
+    function calculateSum() {
+      const num1 = Number(document.getElementById('num1Input').value);
+      const num2 = Number(document.getElementById('num2Input').value);
+      
+      if (isNaN(num1) || isNaN(num2)) {
+        document.getElementById('sumResult').innerHTML = 
+          '❌ Por favor, digite números válidos!';
+        document.getElementById('sumResult').style.background = '#fef2f2';
+        document.getElementById('sumResult').style.color = '#dc2626';
+        return;
+      }
+      
+      const soma = num1 + num2;
+      document.getElementById('sumResult').innerHTML = 
+        `${num1} + ${num2} = ${soma}`;
+      document.getElementById('sumResult').style.background = '#ecfdf5';
+      document.getElementById('sumResult').style.color = '#065f46';
+      
+      console.log(`Cálculo interativo: ${num1} + ${num2} = ${soma}`);
+    }
+
+    // Função para executar desafio 1
+    function runChallenge1() {
+      const valor = prompt('Digite um número:');
+      const numero = Number(valor);
+      
+      console.log('🚀 Executando Desafio 1:');
+      
+      if (isNaN(numero) || valor === null || valor === '') {
+        console.log('❌ Valor inválido!');
+        showNotification('Valor inválido! Digite um número válido.', 'error');
+      } else {
+        const dobro = numero * 2;
+        console.log(`Número digitado: ${numero}`);
+        console.log(`Dobro: ${dobro}`);
+        showNotification(`O dobro de ${numero} é ${dobro}`, 'success');
+      }
+    }
+
+    // Função para executar desafio 2
+    function runChallenge2() {
+      const idadeStr = prompt('Qual sua idade?');
+      const idade = Number(idadeStr);
+      
+      console.log('🚀 Executando Desafio 2:');
+      
+      if (isNaN(idade) || idadeStr === null || idadeStr === '') {
+        console.log('❌ Idade inválida!');
+        showNotification('Idade inválida! Digite um número válido.', 'error');
+      } else {
+        console.log(`Idade digitada: ${idade}`);
+        if (idade >= 18) {
+          console.log('✅ Maior de idade');
+          showNotification(`Idade ${idade}: Maior de idade`, 'success');
+        } else {
+          console.log('⚠️ Menor de idade');
+          showNotification(`Idade ${idade}: Menor de idade`, 'info');
+        }
+      }
+    }
+
+    // Função para calculadora
+    function runCalculator() {
+      const num1 = Number(document.getElementById('calc1').value);
+      const num2 = Number(document.getElementById('calc2').value);
+      const operation = document.getElementById('operation').value;
+      const resultDiv = document.getElementById('calcResult');
+      
+      if (isNaN(num1) || isNaN(num2)) {
+        resultDiv.innerHTML = '❌ Por favor, digite números válidos!';
+        resultDiv.style.background = '#fef2f2';
+        resultDiv.style.color = '#dc2626';
+        return;
+      }
+      
+      let resultado;
+      let operationName;
+      
+      switch(operation) {
+        case '+':
+          resultado = num1 + num2;
+          operationName = 'soma';
+          break;
+        case '-':
+          resultado = num1 - num2;
+          operationName = 'subtração';
+          break;
+        case '*':
+          resultado = num1 * num2;
+          operationName = 'multiplicação';
+          break;
+        case '/':
+          if (num2 === 0) {
+            resultDiv.innerHTML = '❌ Não é possível dividir por zero!';
+            resultDiv.style.background = '#fef2f2';
+            resultDiv.style.color = '#dc2626';
+            return;
+          }
+          resultado = num1 / num2;
+          operationName = 'divisão';
+          break;
+      }
+      
+      resultDiv.innerHTML = `${num1} ${operation} ${num2} = ${resultado}`;
+      resultDiv.style.background = '#ecfdf5';
+      resultDiv.style.color = '#065f46';
+      
+      console.log(`Calculadora: ${operationName} de ${num1} ${operation} ${num2} = ${resultado}`);
+    }
+
+    // Função para abrir console
+    function openConsole() {
+      showNotification('Pressione F12 ou Ctrl+Shift+I para abrir o console do navegador!', 'info');
+      console.log('👋 Olá! Este é o console do navegador.');
+      console.log('💡 Aqui você pode ver a saída dos comandos JavaScript.');
+      console.log('🔧 Use este espaço para experimentar código!');
+    }
+
+    // Função para mostrar notificações
+    function showNotification(message, type = 'info') {
+      // Criar elemento de notificação
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      `;
+      
+      // Definir cor baseada no tipo
+      switch(type) {
+        case 'success':
+          notification.style.background = '#10b981';
+          break;
+        case 'error':
+          notification.style.background = '#ef4444';
+          break;
+        case 'info':
+          notification.style.background = '#3b82f6';
+          break;
+        default:
+          notification.style.background = '#6b7280';
+      }
+      
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      // Remover após 4 segundos
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 4000);
+    }
+
+    // Adicionar animações CSS
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Executar código inicial quando a página carregar
+    window.addEventListener('load', () => {
+      console.log('🎉 Bem-vindo à Aula 01 de JavaScript!');
+      console.log('📚 Esta página contém exercícios interativos para você aprender.');
+      console.log('💡 Clique nos botões "Executar" para ver os exercícios em ação!');
+      
+      showNotification('Página carregada! Abra o console (F12) para ver mais detalhes.', 'success');
+    });
+
+    // Exportar dados e funções para reutilização
+    window.dadosUsuario = dados;
+    window.somar = (x, y) => x + y;
+  </script>
+</body>
+</html>

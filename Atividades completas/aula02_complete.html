@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 02 – Variáveis, Tipos e Funções</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Fira+Code:wght@400;500&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #222;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .subtitle {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    main {
+      margin: 2rem auto;
+      max-width: 900px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 2rem;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section {
+      margin-bottom: 3rem;
+      padding: 1.5rem;
+      border-radius: 10px;
+      border-left: 4px solid #4f8cff;
+      background: #f8f9ff;
+    }
+
+    .section h2 {
+      color: #4f8cff;
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .exercise {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border: 2px solid #e3e8ff;
+      transition: all 0.3s ease;
+    }
+
+    .exercise:hover {
+      border-color: #4f8cff;
+      box-shadow: 0 4px 15px rgba(79, 140, 255, 0.1);
+    }
+
+    .exercise h3 {
+      color: #333;
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .exercise-number {
+      background: #4f8cff;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    input[type="text"], input[type="number"] {
+      padding: 0.75rem;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4f8cff;
+      box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.1);
+    }
+
+    button {
+      background: #4f8cff;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #3a7ae4;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(79, 140, 255, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 6px;
+      background: #e8f5e8;
+      border: 1px solid #4caf50;
+      color: #2e7d32;
+      font-weight: 500;
+      min-height: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .result.error {
+      background: #ffebee;
+      border-color: #f44336;
+      color: #c62828;
+    }
+
+    .console-output {
+      background: #1e1e1e;
+      color: #fff;
+      padding: 1rem;
+      border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+      max-height: 200px;
+      overflow-y: auto;
+      border: 2px solid #333;
+    }
+
+    .console-line {
+      margin: 0.25rem 0;
+      padding: 0.25rem 0;
+    }
+
+    .console-line.log {
+      color: #4fc3f7;
+    }
+
+    .console-line.result {
+      color: #81c784;
+    }
+
+    .objectives {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .objective-card {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #4caf50;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .challenge {
+      background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);
+      color: white;
+      border: none;
+    }
+
+    .challenge h3 {
+      color: white;
+    }
+
+    .challenge .result {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.3);
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        margin: 1rem;
+        padding: 1rem;
+      }
+      
+      .input-group {
+        flex-direction: column;
+      }
+      
+      input[type="text"], input[type="number"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aula 02 – Variáveis, Tipos e Funções</h1>
+    <div class="subtitle">Aprenda a criar e usar variáveis e funções em JavaScript</div>
+  </header>
+  
+  <main>
+    <!-- Objetivos de Aprendizagem -->
+    <div class="section">
+      <h2>🎯 Objetivos de Aprendizagem</h2>
+      <div class="objectives">
+        <div class="objective-card">
+          <strong>Variáveis</strong><br>
+          Declarar e atribuir com <code>let</code> e <code>const</code>
+        </div>
+        <div class="objective-card">
+          <strong>Escopo</strong><br>
+          Entender escopo e boas práticas de nomes
+        </div>
+        <div class="objective-card">
+          <strong>Funções</strong><br>
+          Criar funções simples e reutilizáveis
+        </div>
+        <div class="objective-card">
+          <strong>Operadores</strong><br>
+          Usar operadores de comparação e lógicos
+        </div>
+      </div>
+    </div>
+
+    <!-- Console de Demonstração -->
+    <div class="section">
+      <h2>🖥️ Console de Demonstração</h2>
+      <div class="console-output" id="consoleOutput">
+        <div class="console-line log">// Exemplos de funções executando...</div>
+      </div>
+      <button onclick="runDemonstrations()">▶️ Executar Demonstrações</button>
+    </div>
+
+    <!-- Exercício 1: Função de Saudação -->
+    <div class="exercise">
+      <h3>
+        <span class="exercise-number">1</span>
+        Função de Saudação
+      </h3>
+      <p><strong>Enunciado:</strong> Crie uma função que recebe um nome e retorna uma saudação.</p>
+      
+      <div class="input-group">
+        <input type="text" id="nomeInput" placeholder="Digite seu nome" />
+        <button onclick="testarSaudacao()">Testar Saudação</button>
+      </div>
+      
+      <div class="result" id="resultSaudacao"></div>
+    </div>
+
+    <!-- Exercício 2: Par ou Ímpar -->
+    <div class="exercise">
+      <h3>
+        <span class="exercise-number">2</span>
+        Verificador de Paridade
+      </h3>
+      <p><strong>Enunciado:</strong> Crie uma função que verifica se um número é par ou ímpar.</p>
+      
+      <div class="input-group">
+        <input type="number" id="numeroInput" placeholder="Digite um número" />
+        <button onclick="testarParidade()">Verificar Paridade</button>
+      </div>
+      
+      <div class="result" id="resultParidade"></div>
+    </div>
+
+    <!-- Exercício 3: Soma de Números -->
+    <div class="exercise">
+      <h3>
+        <span class="exercise-number">3</span>
+        Soma de Dois Números
+      </h3>
+      <p><strong>Enunciado:</strong> Use a função somar para calcular a soma de dois números.</p>
+      
+      <div class="input-group">
+        <input type="number" id="num1Input" placeholder="Primeiro número" />
+        <input type="number" id="num2Input" placeholder="Segundo número" />
+        <button onclick="testarSoma()">Calcular Soma</button>
+      </div>
+      
+      <div class="result" id="resultSoma"></div>
+    </div>
+
+    <!-- Desafios Extras -->
+    <div class="section">
+      <h2>🚀 Desafios Extras</h2>
+      
+      <!-- Desafio 1: Maior Número -->
+      <div class="exercise challenge">
+        <h3>
+          <span class="exercise-number">🏆</span>
+          Maior de Dois Números
+        </h3>
+        <p>Crie uma função que retorna o maior de dois números.</p>
+        
+        <div class="input-group">
+          <input type="number" id="maiorA" placeholder="Número A" />
+          <input type="number" id="maiorB" placeholder="Número B" />
+          <button onclick="testarMaior()">Encontrar Maior</button>
+        </div>
+        
+        <div class="result" id="resultMaior"></div>
+      </div>
+
+      <!-- Desafio 2: Pode Votar -->
+      <div class="exercise challenge">
+        <h3>
+          <span class="exercise-number">🗳️</span>
+          Verificador de Idade para Voto
+        </h3>
+        <p>Crie uma função que recebe idade e retorna se pode votar (≥16 anos).</p>
+        
+        <div class="input-group">
+          <input type="number" id="idadeInput" placeholder="Digite a idade" />
+          <button onclick="testarVoto()">Verificar se Pode Votar</button>
+        </div>
+        
+        <div class="result" id="resultVoto"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Aula 02 – Variáveis, Tipos e Funções
+    // Funções reutilizadas da aula anterior
+    const somar = (x, y) => x + y;
+    const dadosUsuario = {
+      nome: 'Estudante',
+      idade: 20,
+      curso: 'JavaScript'
+    };
+
+    // Função de saudação (Exemplo da aula)
+    const saudacao = nome => `Olá, ${nome}!`;
+
+    // Função para verificar paridade (Exemplo da aula)
+    const ehPar = n => n % 2 === 0;
+
+    // Exercício 1: Função de saudação personalizada
+    const minhaSaudacao = nome => {
+      if (!nome || nome.trim() === '') {
+        return 'Por favor, digite um nome válido!';
+      }
+      return `Bem-vindo(a), ${nome.trim()}!`;
+    };
+
+    // Exercício 2: Função que verifica se um número é par ou ímpar
+    const parOuImpar = n => {
+      if (isNaN(n)) {
+        return 'Por favor, digite um número válido!';
+      }
+      return n % 2 === 0 ? 'Par' : 'Ímpar';
+    };
+
+    // Desafio 1: Função que retorna o maior de dois números
+    const maior = (a, b) => {
+      if (isNaN(a) || isNaN(b)) {
+        return 'Por favor, digite números válidos!';
+      }
+      if (a === b) {
+        return `Os números são iguais: ${a}`;
+      }
+      return a > b ? a : b;
+    };
+
+    // Desafio 2: Função que verifica se pode votar
+    const podeVotar = idade => {
+      if (isNaN(idade) || idade < 0) {
+        return 'Por favor, digite uma idade válida!';
+      }
+      if (idade >= 16) {
+        return idade >= 18 ? 'Sim, voto obrigatório!' : 'Sim, voto facultativo!';
+      }
+      return 'Não, ainda não pode votar.';
+    };
+
+    // Função para adicionar linha no console
+    function addConsoleLog(message, type = 'log') {
+      const console = document.getElementById('consoleOutput');
+      const line = document.createElement('div');
+      line.className = `console-line ${type}`;
+      line.textContent = message;
+      console.appendChild(line);
+      console.scrollTop = console.scrollHeight;
+    }
+
+    // Função para limpar console
+    function clearConsole() {
+      const console = document.getElementById('consoleOutput');
+      console.innerHTML = '<div class="console-line log">// Console limpo...</div>';
+    }
+
+    // Demonstrações automáticas
+    function runDemonstrations() {
+      clearConsole();
+      
+      setTimeout(() => {
+        addConsoleLog('console.log(saudacao("Ana"));', 'log');
+        addConsoleLog('> ' + saudacao('Ana'), 'result');
+      }, 500);
+      
+      setTimeout(() => {
+        addConsoleLog('console.log("4 é par?", ehPar(4));', 'log');
+        addConsoleLog('> 4 é par? ' + ehPar(4), 'result');
+      }, 1000);
+      
+      setTimeout(() => {
+        addConsoleLog('console.log("Soma:", somar(2, 3));', 'log');
+        addConsoleLog('> Soma: ' + somar(2, 3), 'result');
+      }, 1500);
+      
+      setTimeout(() => {
+        addConsoleLog('console.log("Maior entre 10 e 20:", maior(10, 20));', 'log');
+        addConsoleLog('> Maior entre 10 e 20: ' + maior(10, 20), 'result');
+      }, 2000);
+      
+      setTimeout(() => {
+        addConsoleLog('console.log("Pode votar com 15?", podeVotar(15));', 'log');
+        addConsoleLog('> Pode votar com 15? ' + podeVotar(15), 'result');
+      }, 2500);
+    }
+
+    // Funções de teste para os exercícios
+    function testarSaudacao() {
+      const nome = document.getElementById('nomeInput').value;
+      const resultado = minhaSaudacao(nome);
+      const resultDiv = document.getElementById('resultSaudacao');
+      
+      resultDiv.textContent = resultado;
+      resultDiv.className = resultado.includes('Por favor') ? 'result error' : 'result';
+      
+      // Adicionar no console
+      addConsoleLog(`minhaSaudacao("${nome}")`, 'log');
+      addConsoleLog('> ' + resultado, 'result');
+    }
+
+    function testarParidade() {
+      const numero = parseFloat(document.getElementById('numeroInput').value);
+      const resultado = parOuImpar(numero);
+      const resultDiv = document.getElementById('resultParidade');
+      
+      resultDiv.textContent = `${numero} é ${resultado}`;
+      resultDiv.className = resultado.includes('Por favor') ? 'result error' : 'result';
+      
+      // Adicionar no console
+      addConsoleLog(`parOuImpar(${numero})`, 'log');
+      addConsoleLog('> ' + resultado, 'result');
+    }
+
+    function testarSoma() {
+      const num1 = parseFloat(document.getElementById('num1Input').value);
+      const num2 = parseFloat(document.getElementById('num2Input').value);
+      
+      const resultDiv = document.getElementById('resultSoma');
+      
+      if (isNaN(num1) || isNaN(num2)) {
+        resultDiv.textContent = 'Por favor, digite números válidos!';
+        resultDiv.className = 'result error';
+        return;
+      }
+      
+      const resultado = somar(num1, num2);
+      resultDiv.textContent = `${num1} + ${num2} = ${resultado}`;
+      resultDiv.className = 'result';
+      
+      // Adicionar no console
+      addConsoleLog(`somar(${num1}, ${num2})`, 'log');
+      addConsoleLog('> ' + resultado, 'result');
+    }
+
+    function testarMaior() {
+      const a = parseFloat(document.getElementById('maiorA').value);
+      const b = parseFloat(document.getElementById('maiorB').value);
+      const resultado = maior(a, b);
+      const resultDiv = document.getElementById('resultMaior');
+      
+      resultDiv.textContent = `Maior número: ${resultado}`;
+      resultDiv.className = resultado.includes('Por favor') ? 'result error' : 'result';
+      
+      // Adicionar no console
+      addConsoleLog(`maior(${a}, ${b})`, 'log');
+      addConsoleLog('> ' + resultado, 'result');
+    }
+
+    function testarVoto() {
+      const idade = parseInt(document.getElementById('idadeInput').value);
+      const resultado = podeVotar(idade);
+      const resultDiv = document.getElementById('resultVoto');
+      
+      resultDiv.textContent = resultado;
+      resultDiv.className = resultado.includes('Por favor') ? 'result error' : 'result';
+      
+      // Adicionar no console
+      addConsoleLog(`podeVotar(${idade})`, 'log');
+      addConsoleLog('> ' + resultado, 'result');
+    }
+
+    // Executar demonstrações na inicialização
+    window.addEventListener('load', () => {
+      setTimeout(runDemonstrations, 1000);
+    });
+
+    // Adicionar eventos de Enter nos inputs
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            const button = this.parentElement.querySelector('button');
+            if (button) button.click();
+          }
+        });
+      });
+    });
+
+    // Exportando funções (para demonstração - não funciona no HTML standalone)
+    // export { saudacao, ehPar, minhaSaudacao, parOuImpar, maior, podeVotar };
+    
+    // Para demonstração, vamos logar as funções disponíveis
+    console.log('Funções disponíveis:', {
+      saudacao,
+      ehPar, 
+      minhaSaudacao,
+      parOuImpar,
+      somar,
+      maior,
+      podeVotar
+    });
+  </script>
+</body>
+</html>
