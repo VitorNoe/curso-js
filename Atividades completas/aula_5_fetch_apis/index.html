@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 05 – Fetch e APIs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="particles"></div>
+  
+  <header>
+    <h1><i class="fas fa-code"></i> Aula 05 – Fetch e APIs</h1>
+  </header>
+  
+  <main>
+    <!-- Seção Usuário Aleatório -->
+    <div class="api-section">
+      <h3><i class="fas fa-user-friends"></i> Usuário Aleatório</h3>
+      <div class="controls">
+        <button id="btnRandomUser" class="pulse">
+          <i class="fas fa-dice"></i> Buscar Usuário Aleatório
+        </button>
+      </div>
+      <div id="randomUserResult"></div>
+    </div>
+
+    <!-- Seção GitHub -->
+    <div class="api-section">
+      <h3><i class="fab fa-github"></i> Buscar Usuário GitHub</h3>
+      <div class="controls">
+        <input type="text" id="inputGit" placeholder="Digite o usuário do GitHub">
+        <button id="btnGit">
+          <i class="fas fa-search"></i> Buscar GitHub
+        </button>
+      </div>
+      <div id="githubResult"></div>
+    </div>
+
+    <!-- Seção CEP -->
+    <div class="api-section">
+      <h3><i class="fas fa-map-marker-alt"></i> Consultar CEP</h3>
+      <div class="controls">
+        <input type="text" id="inputCep" placeholder="Digite o CEP (ex: 01001000)" maxlength="8">
+        <button id="btnCep">
+          <i class="fas fa-location-arrow"></i> Buscar CEP
+        </button>
+      </div>
+      <div id="cepResult"></div>
+    </div>
+
+    <!-- Seção Chuck Norris -->
+    <div class="api-section">
+      <h3><i class="fas fa-laugh"></i> Piadas Chuck Norris</h3>
+      <div class="controls">
+        <button id="btnPiada">
+          <i class="fas fa-smile-beam"></i> Nova Piada
+        </button>
+      </div>
+      <div id="piadaResult"></div>
+    </div>
+
+    <!-- Seção Posts -->
+    <div class="api-section">
+      <h3><i class="fas fa-newspaper"></i> Posts JSONPlaceholder</h3>
+      <div class="controls">
+        <button id="btnPosts">
+          <i class="fas fa-list"></i> Listar Posts
+        </button>
+      </div>
+      <div id="postsResult"></div>
+    </div>
+
+    <!-- Seção Dog -->
+    <div class="api-section">
+      <h3><i class="fas fa-dog"></i> Cachorro Aleatório</h3>
+      <div class="controls">
+        <button id="btnDog">
+          <i class="fas fa-paw"></i> Buscar Dog
+        </button>
+      </div>
+      <div id="dogResult"></div>
+    </div>
+  </main>
+
+  <!-- Scripts das bibliotecas de animação -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
