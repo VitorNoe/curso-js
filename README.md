@@ -89,3 +89,7 @@ Os recados são armazenados no **localStorage** do navegador, garantindo que os 
 - ✅ Safari (versão 13+)
 - ✅ Edge (versão 80+)
 - ✅ Dispositivos móveis (iOS/Android)
+
+## Link para acessar via github.io:
+
+- https://vitornoe.github.io/curso-js/Atividades%20completas/sistema-recados.html
