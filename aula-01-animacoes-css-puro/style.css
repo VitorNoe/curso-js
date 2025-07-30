@@ -1,0 +1,66 @@
+/* Aula 01 – Animações com CSS Puro */
+
+/* Exemplo: Caixa animada */
+.box {
+  width: 100px;
+  height: 100px;
+  background: #3498db;
+  margin: 32px auto;
+  border-radius: 12px;
+  transition: transform 0.6s cubic-bezier(.68,-0.55,.27,1.55), background 0.4s;
+}
+.box:hover {
+  transform: translateX(80px) rotate(20deg);
+  background: #e67e22;
+}
+
+/* Exercício 1: Botão com transição de cor */
+.btn {
+  padding: 12px 32px;
+  background: #2ecc71;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.4s;
+}
+.btn:hover {
+  background: #16a085;
+}
+
+/* Exercício 2: Texto letra a letra */
+.letter {
+  display: inline-block;
+  opacity: 0;
+  animation: fadeInLetter 0.5s forwards;
+}
+/* Copilot: Ajuste o delay de cada letra no HTML inline-style */
+@keyframes fadeInLetter {
+  to { opacity: 1; }
+}
+
+/* Exercício 3: Galeria fade-in */
+.gallery img {
+  opacity: 0;
+  animation: fadeInImg 1.2s forwards;
+  animation-delay: 0.3s;
+}
+@keyframes fadeInImg {
+  to { opacity: 1; }
+}
+
+/* Desafio: Card saltando */
+.card {
+  display: inline-block;
+  padding: 24px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0002;
+  transition: transform 0.2s;
+}
+.card:active {
+  transform: scale(1.08) translateY(-8px);
+}
+
+/* Copilot: Ajuste valores de duração, easing e delay para experimentar */
