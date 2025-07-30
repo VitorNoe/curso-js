@@ -23,7 +23,7 @@ Um sistema web moderno e responsivo para gerenciamento de recados, desenvolvido 
 
 1. **Clone o repositório**:
    ```bash
-   git clone https://github.com/seu-usuario/sistema-recados.git
+   git clone https://github.com/VitorNoe/Atividades completas/sistema-recados.git
    ```
 
 2. **Abra o arquivo**:
