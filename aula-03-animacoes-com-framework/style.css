@@ -1,0 +1,47 @@
+/* Aula 03 – Animações com Framework (Anime.js) */
+
+.boxes {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 32px 0;
+}
+.box {
+  width: 60px;
+  height: 60px;
+  background: #f59e42;
+  border-radius: 10px;
+  opacity: 0.7;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin: 32px 0;
+}
+.list-item {
+  width: 180px;
+  padding: 12px;
+  background: #f3f4f6;
+  border-radius: 6px;
+  text-align: center;
+  opacity: 0.6;
+}
+
+.timeline-demo {
+  width: 100px;
+  height: 100px;
+  background: #60a5fa;
+  border-radius: 50%;
+  margin: 24px auto;
+  opacity: 0.8;
+}
+
+.svg-demo {
+  display: block;
+  margin: 32px auto;
+}
+
+/* Copilot: Ajuste cores, delays e tamanhos para experimentar */
