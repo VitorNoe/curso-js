@@ -1,0 +1,51 @@
+/* Aula 02 – Animações com JavaScript Puro */
+
+body {
+  min-height: 200vh;
+  background: linear-gradient(180deg, #f0f0f0 0%, #dbeafe 100%);
+}
+
+.box {
+  width: 80px;
+  height: 80px;
+  background: #6366f1;
+  border-radius: 10px;
+  position: relative;
+  margin: 32px auto;
+}
+
+.counter {
+  font-size: 2rem;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.slider {
+  width: 320px;
+  height: 180px;
+  overflow: hidden;
+  margin: 32px auto;
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #0001;
+}
+.slider img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: none; /* Não usar transition aqui! */
+}
+
+.parallax {
+  height: 120px;
+  background: #a7f3d0;
+  margin: 40px 0;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Copilot: Reaproveite estilos da aula 01 se desejar */
