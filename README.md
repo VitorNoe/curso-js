@@ -90,6 +90,15 @@ Os recados são armazenados no **localStorage** do navegador, garantindo que os 
 - ✅ Edge (versão 80+)
 - ✅ Dispositivos móveis (iOS/Android)
 
-## Link para acessar via github.io:
+## Link para acessar via github.io
 
 - https://vitornoe.github.io/curso-js/Atividades%20completas/sistema-recados.html
+
+## Extras: Links de outros projetos
+
+- https://vitornoe.github.io/curso-js/Atividades%20completas/aula_1_introducao-js.html
+- https://vitornoe.github.io/curso-js/Atividades%20completas/aula02_variaveis-funcoes.html
+- https://vitornoe.github.io/curso-js/Atividades%20completas/aula03_dom_eventos.html
+- https://vitornoe.github.io/curso-js/Atividades%20completas/aula04_arrays-objetos.html
+- https://vitornoe.github.io/curso-js/Atividades%20completas/aula_5_fetch_apis/index.html
+- https://vitornoe.github.io/curso-js/Atividades%20completas/aula6-projeto-mini.html
