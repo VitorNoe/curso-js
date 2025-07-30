@@ -2,36 +2,25 @@
 $(function() {
   // Templates de animação
   const templates = [
-    {
-      name: 'Fade In',
-      config: { opacity: [0, 1], duration: 900, easing: 'easeInOutQuad' },
-      label: 'Fade In'
-    },
-    {
-      name: 'Slide Right',
-      config: { translateX: [0, 120], duration: 900, easing: 'easeOutBack' },
-      label: 'Slide Right'
-    },
-    {
-      name: 'Scale Up',
-      config: { scale: [0.5, 1.2], duration: 1000, easing: 'easeOutElastic' },
-      label: 'Scale Up'
-    },
-    {
-      name: 'Rotate',
-      config: { rotate: [0, 360], duration: 1200, easing: 'easeInOutSine' },
-      label: 'Rotate'
-    },
-    {
-      name: 'Color Pulse',
-      config: { backgroundColor: ['#fbbf24', '#6366f1'], duration: 900, direction: 'alternate', loop: 2, easing: 'linear' },
-      label: 'Color Pulse'
-    },
-    {
-      name: 'Bounce',
-      config: { translateY: [0, -60, 0], duration: 900, easing: 'easeOutElastic' },
-      label: 'Bounce'
-    }
+    { name: 'Fade In', config: { opacity: [0, 1], duration: 900, easing: 'easeInOutQuad' }, label: 'Fade In' },
+    { name: 'Fade Out', config: { opacity: [1, 0], duration: 900, easing: 'easeInOutQuad' }, label: 'Fade Out' },
+    { name: 'Slide Right', config: { translateX: [0, 120], duration: 900, easing: 'easeOutBack' }, label: 'Slide Right' },
+    { name: 'Slide Left', config: { translateX: [0, -120], duration: 900, easing: 'easeOutBack' }, label: 'Slide Left' },
+    { name: 'Slide Up', config: { translateY: [0, -120], duration: 900, easing: 'easeOutBack' }, label: 'Slide Up' },
+    { name: 'Slide Down', config: { translateY: [0, 120], duration: 900, easing: 'easeOutBack' }, label: 'Slide Down' },
+    { name: 'Scale Up', config: { scale: [0.5, 1.2], duration: 1000, easing: 'easeOutElastic' }, label: 'Scale Up' },
+    { name: 'Scale Down', config: { scale: [1.2, 0.5], duration: 1000, easing: 'easeInBack' }, label: 'Scale Down' },
+    { name: 'Rotate', config: { rotate: [0, 360], duration: 1200, easing: 'easeInOutSine' }, label: 'Rotate' },
+    { name: 'Flip X', config: { rotateY: [0, 180], duration: 1000, easing: 'easeInOutSine' }, label: 'Flip X' },
+    { name: 'Flip Y', config: { rotateX: [0, 180], duration: 1000, easing: 'easeInOutSine' }, label: 'Flip Y' },
+    { name: 'Color Pulse', config: { backgroundColor: ['#fbbf24', '#6366f1'], duration: 900, direction: 'alternate', loop: 2, easing: 'linear' }, label: 'Color Pulse' },
+    { name: 'Bounce', config: { translateY: [0, -60, 0], duration: 900, easing: 'easeOutElastic' }, label: 'Bounce' },
+    { name: 'Pulse', config: { scale: [1, 1.2, 1], duration: 800, easing: 'easeInOutSine', loop: 2 }, label: 'Pulse' },
+    { name: 'Swing', config: { rotate: [-15, 15, -10, 10, 0], duration: 900, easing: 'easeInOutSine' }, label: 'Swing' },
+    { name: 'RubberBand', config: { scaleX: [1, 1.25, 0.75, 1.15, 0.95, 1], scaleY: [1, 0.75, 1.25, 0.85, 1.05, 1], duration: 1200, easing: 'easeInOutSine' }, label: 'RubberBand' },
+    { name: 'Wobble', config: { translateX: [0, -20, 15, -10, 5, 0], duration: 1000, easing: 'easeInOutSine' }, label: 'Wobble' },
+    { name: 'Shake', config: { translateX: [0, -10, 10, -10, 10, 0], duration: 700, easing: 'easeInOutSine' }, label: 'Shake' },
+    { name: 'Stagger', config: { translateY: [0, -40, 0], delay: anime.stagger(100), duration: 900, easing: 'easeOutBack' }, label: 'Stagger', isStagger: true }
   ];
 
   // Abas

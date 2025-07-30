@@ -8,10 +8,21 @@
   margin: 32px auto;
   border-radius: 12px;
   transition: transform 0.6s cubic-bezier(.68,-0.55,.27,1.55), background 0.4s;
+  animation: boxAnimation 2s infinite alternate;
 }
 .box:hover {
   transform: translateX(80px) rotate(20deg);
   background: #e67e22;
+}
+@keyframes boxAnimation {
+  from {
+    transform: translateX(0) rotate(0);
+    background: #3498db;
+  }
+  to {
+    transform: translateX(80px) rotate(20deg);
+    background: #e67e22;
+  }
 }
 
 /* Exercício 1: Botão com transição de cor */
