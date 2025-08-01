@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Aula 04 – Animações com Biblioteca Famosa (Anime.js)</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Aula 04 – Animações com Biblioteca Famosa <span>Anime.js</span></h1>
+    <nav>
+      <button class="tab-btn active" data-tab="galeria">Galeria</button>
+      <button class="tab-btn" data-tab="sobre">Sobre</button>
+    </nav>
+  </header>
+  <main>
+    <section class="dashboard">
+      <div class="tabs">
+        <div class="tab-content active" id="tab-galeria">
+          <h2>Galeria de Animações</h2>
+          <div class="template-gallery">
+            <!-- Templates inseridos via JS -->
+          </div>
+          <button id="btnRandom" class="random-btn">Random Animation</button>
+        </div>
+        <div class="tab-content" id="tab-sobre">
+          <h2>Sobre esta Aula</h2>
+          <p>Explore dezenas de animações prontas, customize, veja o código Anime.js e aprenda como criar efeitos incríveis na web!<br>
+          <b>Easter Egg:</b> Tente digitar <code>magic</code> na página para uma surpresa!<br><br>
+          <small>Desenvolvido para fins didáticos. Não copie o Animista, crie sua própria solução!</small></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <small>Aula 04 – Biblioteca de Animações | Anime.js + jQuery</small>
+  </footer>
+</body>
+</html>

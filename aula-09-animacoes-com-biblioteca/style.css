@@ -1,0 +1,261 @@
+/* Aula 04 – Biblioteca de Animações (Anime.js) */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f3f4f6;
+  color: #222;
+  margin: 0;
+  min-height: 100vh;
+}
+header {
+  background: #6366f1;
+  color: #fff;
+  padding: 32px 0 16px 0;
+  text-align: center;
+  box-shadow: 0 2px 8px #0001;
+}
+header h1 {
+  font-size: 2.1rem;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+}
+header h1 span {
+  color: #fbbf24;
+}
+nav {
+  margin-top: 12px;
+}
+.tab-btn {
+  background: #fff;
+  color: #6366f1;
+  border: none;
+  border-radius: 6px 6px 0 0;
+  padding: 10px 28px;
+  font-size: 1rem;
+  margin: 0 2px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background .2s, color .2s;
+}
+.tab-btn.active, .tab-btn:hover {
+  background: #fbbf24;
+  color: #222;
+}
+.dashboard {
+  max-width: 900px;
+  margin: 32px auto 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px #0002;
+  padding: 0 0 32px 0;
+}
+.tabs {
+  padding: 0 32px;
+}
+.tab-content {
+  display: none;
+  padding-top: 24px;
+}
+.tab-content.active {
+  display: block;
+}
+/* Galeria */
+.template-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  margin: 24px 0 16px 0;
+}
+.template-card {
+  background: #f3f4f6;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0001;
+  width: 140px;
+  padding: 18px 10px 12px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow .2s, transform .2s;
+  position: relative;
+}
+.template-card:hover {
+  box-shadow: 0 6px 24px #6366f133;
+  transform: translateY(-4px) scale(1.04);
+}
+.template-preview {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 8px auto;
+  background: #fbbf24;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #222;
+  box-shadow: 0 1px 4px #0001;
+  overflow: hidden;
+  position: relative;
+}
+.template-label {
+  font-size: 1.05rem;
+  color: #6366f1;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.random-btn {
+  display: block;
+  margin: 18px auto 0 auto;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .2s;
+}
+.random-btn:hover {
+  background: #fbbf24;
+  color: #222;
+}
+/* Customização */
+#animForm {
+  max-width: 420px;
+  margin: 0 auto 0 auto;
+  background: #f3f4f6;
+  border-radius: 10px;
+  padding: 18px 24px 10px 24px;
+  box-shadow: 0 2px 8px #0001;
+}
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+.form-row label {
+  min-width: 90px;
+  font-size: 1rem;
+}
+.form-row input[type="text"],
+.form-row input[type="number"],
+.form-row select {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+.form-row input[type="checkbox"] {
+  margin-left: 8px;
+}
+.form-row button {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: background .2s;
+}
+.form-row button:hover {
+  background: #fbbf24;
+  color: #222;
+}
+.preview-area {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 8px 0;
+}
+.preview-box {
+  width: 160px;
+  height: 160px;
+  background: #fbbf24;
+  color: #222;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #0001;
+  transition: all .3s cubic-bezier(.4,1.4,.6,1);
+  user-select: none;
+  margin-bottom: 0;
+}
+.code-area {
+  margin: 18px auto 0 auto;
+  max-width: 480px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 10px 18px 8px 18px;
+  box-shadow: 0 1px 4px #0001;
+}
+.code-area label {
+  font-size: 0.98rem;
+  color: #6366f1;
+  font-weight: 500;
+}
+.code-area pre {
+  background: #222;
+  color: #fbbf24;
+  border-radius: 6px;
+  padding: 10px 8px;
+  font-size: 0.98rem;
+  margin: 6px 0 0 0;
+  overflow-x: auto;
+}
+/* Sobre/Easter Egg */
+#tab-sobre {
+  text-align: center;
+  color: #444;
+}
+#tab-sobre code {
+  background: #fbbf24;
+  color: #222;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+#tab-sobre small {
+  color: #6366f1;
+}
+/* Mini-boxes para preview stagger */
+.mini-box {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: #6366f1;
+  border-radius: 3px;
+  margin: 0 2px;
+}
+/* Responsivo */
+@media (max-width: 700px) {
+  .dashboard {
+    max-width: 99vw;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .tabs {
+    padding: 0 4vw;
+  }
+  .template-gallery {
+    gap: 12px;
+  }
+  .template-card {
+    width: 44vw;
+    min-width: 120px;
+    max-width: 180px;
+  }
+}
+footer {
+  text-align: center;
+  color: #6366f1;
+  background: none;
+  padding: 18px 0 10px 0;
+  font-size: 1rem;
+}
