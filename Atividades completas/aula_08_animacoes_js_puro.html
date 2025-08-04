@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 02 – Animações com JavaScript Puro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    /* Reset e configurações base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 300vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Header com animação de entrada */
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #fff, #f0f9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Seções organizadas */
+    .section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #fff;
+      text-align: center;
+    }
+
+    /* Exemplo: Quadrado caindo */
+    .box {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      border-radius: 15px;
+      position: relative;
+      margin: 32px auto;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(238, 90, 36, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .box:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(238, 90, 36, 0.6);
+    }
+
+    /* Contador animado */
+    .counter-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .counter {
+      font-size: 4rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      background: linear-gradient(45deg, #f093fb, #f5576c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 10px rgba(245, 87, 108, 0.3);
+    }
+
+    /* Botões estilizados */
+    .btn {
+      background: linear-gradient(45deg, #4facfe, #00f2fe);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+      margin: 0.5rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    /* Slider de imagens */
+    .slider-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .slider {
+      width: 400px;
+      height: 250px;
+      overflow: hidden;
+      margin: 2rem auto;
+      position: relative;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    /* Parallax */
+    .parallax {
+      height: 150px;
+      background: linear-gradient(45deg, #a8edea, #fed6e3);
+      margin: 3rem 0;
+      border-radius: 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+      box-shadow: 0 8px 32px rgba(168, 237, 234, 0.4);
+    }
+
+    /* Loader animado */
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-text {
+      position: absolute;
+      top: 60%;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    /* Desafio: Elementos que "pulam" */
+    .jump-element {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, #ffecd2, #fcb69f);
+      border-radius: 50%;
+      margin: 1rem;
+      cursor: pointer;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(252, 182, 159, 0.4);
+    }
+
+    .jump-element:hover {
+      transform: scale(1.1);
+    }
+
+    /* Partículas flutuantes */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+    }
+
+    /* Progress bar animada */
+    .progress-container {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .progress-bar {
+      width: 300px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      margin: 1rem auto;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(45deg, #00c9ff, #92fe9d);
+      width: 0%;
+      border-radius: 5px;
+      transition: width 0.3s ease;
+    }
+
+    /* Cards com hover effects */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+      color: #fff;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader animado -->
+  <div class="loader-container" id="loader">
+    <div class="loader"></div>
+    <div class="loader-text">Carregando animações...</div>
+  </div>
+
+  <!-- Partículas flutuantes -->
+  <div class="particles" id="particles"></div>
+
+  <header>
+    <h1 id="main-title">Aula 02 – Animações com JavaScript Puro</h1>
+  </header>
+
+  <main>
+    <!-- Seção: Exemplo de queda -->
+    <div class="section">
+      <h2 class="section-title">Exemplo: Quadrado Caindo</h2>
+      <div class="box" id="falling-box"></div>
+      <div style="text-align: center;">
+        <button class="btn" id="reset-box">Reiniciar Queda</button>
+      </div>
+    </div>
+
+    <!-- Seção: Contador animado -->
+    <div class="section">
+      <h2 class="section-title">Exercício 1: Contador Animado</h2>
+      <div class="counter-container">
+        <div class="counter" id="counter">0</div>
+        <button class="btn" id="start-counter">Iniciar Contador</button>
+        <button class="btn" id="reset-counter">Reset</button>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção: Slider de imagens -->
+    <div class="section">
+      <h2 class="section-title">Exercício 2: Slider Animado</h2>
+      <div class="slider-container">
+        <div class="slider" id="image-slider"></div>
+        <button class="btn" id="prev-image">⬅ Anterior</button>
+        <button class="btn" id="next-image">Próxima ➡</button>
+        <button class="btn" id="auto-slide">Auto Slide</button>
+      </div>
+    </div>
+
+    <!-- Seção: Parallax -->
+    <div class="section">
+      <h2 class="section-title">Exercício 3: Efeito Parallax</h2>
+      <div class="parallax" id="parallax-element">
+        <span>🌟 Parallax: Role a página! 🌟</span>
+      </div>
+    </div>
+
+    <!-- Seção: Desafios -->
+    <div class="section">
+      <h2 class="section-title">Desafios Extras</h2>
+      <div style="text-align: center; margin: 2rem 0;">
+        <h3 style="color: #fff; margin-bottom: 1rem;">Clique nos círculos para fazê-los pular!</h3>
+        <div id="jump-elements"></div>
+      </div>
+      
+      <div class="cards-container" id="animated-cards">
+        <div class="card">
+          <h3>🚀 RequestAnimationFrame</h3>
+          <p>Usado para animações suaves sincronizadas com o refresh da tela (60 FPS).</p>
+        </div>
+        <div class="card">
+          <h3>⏰ SetInterval & SetTimeout</h3>
+          <p>Permitem execução de código em intervalos específicos de tempo.</p>
+        </div>
+        <div class="card">
+          <h3>🎨 Anime.js</h3>
+          <p>Biblioteca poderosa para animações complexas e interativas.</p>
+        </div>
+        <div class="card">
+          <h3>✨ CSS + JS</h3>
+          <p>Combinação perfeita para criar experiências visuais incríveis.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção adicional para mais conteúdo -->
+    <div class="section">
+      <h2 class="section-title">Área de Scroll Expandida</h2>
+      <p style="color: rgba(255, 255, 255, 0.8); text-align: center; line-height: 1.8;">
+        Esta seção adiciona mais altura à página para demonstrar melhor o efeito parallax.
+        Continue rolando para ver como os elementos se movem em velocidades diferentes!
+      </p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Mais Conteúdo para Scroll</h2>
+      <p style="color: rgba(255, 255, 255, 0.8); text-align: center; line-height: 1.8;">
+        O parallax funciona melhor com mais conteúdo na página. 
+        Observe como o elemento parallax se move mais devagar que o scroll da página.
+      </p>
+    </div>
+  </main>
+
+  <script>
+    // ==================== CONFIGURAÇÃO INICIAL ====================
+    
+    // Loader animado que desaparece após 2 segundos
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        anime({
+          targets: loader,
+          opacity: 0,
+          duration: 800,
+          easing: 'easeOutExpo',
+          complete: () => {
+            loader.style.display = 'none';
+          }
+        });
+
+        // Animar entrada do título
+        anime({
+          targets: '#main-title',
+          translateY: [-50, 0],
+          opacity: [0, 1],
+          duration: 1200,
+          easing: 'easeOutElastic(1, .8)',
+          delay: 500
+        });
+
+        // Animar entrada das seções
+        anime({
+          targets: '.section',
+          translateY: [100, 0],
+          opacity: [0, 1],
+          duration: 1000,
+          easing: 'easeOutExpo',
+          delay: anime.stagger(200, {start: 800})
+        });
+      }, 2000);
+    });
+
+    // ==================== PARTÍCULAS FLUTUANTES ====================
+    
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particlesContainer.appendChild(particle);
+
+        // Animar partículas com Anime.js
+        anime({
+          targets: particle,
+          translateY: [
+            { value: -10, duration: 2000 },
+            { value: 10, duration: 2000 }
+          ],
+          translateX: [
+            { value: -5, duration: 1500 },
+            { value: 5, duration: 1500 }
+          ],
+          opacity: [
+            { value: 0.3, duration: 1000 },
+            { value: 0.8, duration: 1000 },
+            { value: 0.3, duration: 1000 }
+          ],
+          loop: true,
+          direction: 'alternate',
+          easing: 'easeInOutSine',
+          delay: Math.random() * 2000
+        });
+      }
+    }
+
+    createParticles();
+
+    // ==================== EXEMPLO: QUADRADO CAINDO ====================
+    
+    const box = document.getElementById('falling-box');
+    const resetBoxBtn = document.getElementById('reset-box');
+
+    let posY = 0;
+    let animationId;
+
+    function animarQueda() {
+      if (posY < 300) {
+        posY += 4;
+        box.style.top = posY + 'px';
+        animationId = requestAnimationFrame(animarQueda);
+      } else {
+        // Bounce effect com Anime.js
+        anime({
+          targets: box,
+          scaleX: [1, 1.2, 1],
+          scaleY: [1, 0.8, 1],
+          duration: 300,
+          easing: 'easeOutElastic(1, .6)'
+        });
+      }
+    }
+
+    resetBoxBtn.addEventListener('click', () => {
+      cancelAnimationFrame(animationId);
+      posY = 0;
+      box.style.top = '0px';
+      
+      // Animação de preparação
+      anime({
+        targets: box,
+        scale: [1, 1.1, 1],
+        duration: 400,
+        easing: 'easeOutElastic(1, .6)',
+        complete: animarQueda
+      });
+    });
+
+    // ==================== EXERCÍCIO 1: CONTADOR ANIMADO ====================
+    
+    const counter = document.getElementById('counter');
+    const startCounterBtn = document.getElementById('start-counter');
+    const resetCounterBtn = document.getElementById('reset-counter');
+    const progressFill = document.getElementById('progress-fill');
+    
+    let countInterval;
+    
+    startCounterBtn.addEventListener('click', () => {
+      clearInterval(countInterval);
+      let n = 0;
+      counter.textContent = '0';
+      progressFill.style.width = '0%';
+      
+      // Animar o botão
+      anime({
+        targets: startCounterBtn,
+        scale: [1, 0.95, 1],
+        duration: 200
+      });
+      
+      countInterval = setInterval(() => {
+        n++;
+        counter.textContent = n;
+        progressFill.style.width = n + '%';
+        
+        // Efeito de pulse no número
+        anime({
+          targets: counter,
+          scale: [1, 1.05, 1],
+          duration: 100,
+          easing: 'easeOutQuad'
+        });
+        
+        if (n >= 100) {
+          clearInterval(countInterval);
+          // Celebração final
+          anime({
+            targets: counter,
+            scale: [1, 1.2, 1],
+            color: ['#f5576c', '#00f2fe', '#f5576c'],
+            duration: 600,
+            easing: 'easeOutElastic(1, .6)'
+          });
+        }
+      }, 25);
+    });
+    
+    resetCounterBtn.addEventListener('click', () => {
+      clearInterval(countInterval);
+      counter.textContent = '0';
+      progressFill.style.width = '0%';
+      
+      anime({
+        targets: [counter, resetCounterBtn],
+        scale: [1, 0.95, 1],
+        duration: 200
+      });
+    });
+
+    // ==================== EXERCÍCIO 2: SLIDER DE IMAGENS ====================
+    
+    const slider = document.getElementById('image-slider');
+    const prevBtn = document.getElementById('prev-image');
+    const nextBtn = document.getElementById('next-image');
+    const autoSlideBtn = document.getElementById('auto-slide');
+    
+    const images = [
+      'https://picsum.photos/400/250?random=1',
+      'https://picsum.photos/400/250?random=2',
+      'https://picsum.photos/400/250?random=3',
+      'https://picsum.photos/400/250?random=4',
+      'https://picsum.photos/400/250?random=5'
+    ];
+    
+    let currentIndex = 0;
+    let autoSlideInterval;
+    let isAutoSliding = false;
+    
+    // Criar imagens
+    images.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.left = (i === 0 ? '0' : '100%');
+      img.style.opacity = i === 0 ? '1' : '0';
+      slider.appendChild(img);
+    });
+    
+    function slideToImage(newIndex, direction = 'next') {
+      const images = slider.querySelectorAll('img');
+      const currentImg = images[currentIndex];
+      const nextImg = images[newIndex];
+      
+      const slideDistance = direction === 'next' ? -100 : 100;
+      const nextPosition = direction === 'next' ? 100 : -100;
+      
+      // Posicionar próxima imagem
+      nextImg.style.left = nextPosition + '%';
+      nextImg.style.opacity = '1';
+      
+      // Animar transição
+      anime({
+        targets: currentImg,
+        translateX: slideDistance + '%',
+        opacity: 0,
+        duration: 600,
+        easing: 'easeInOutQuad'
+      });
+      
+      anime({
+        targets: nextImg,
+        translateX: [nextPosition + '%', '0%'],
+        duration: 600,
+        easing: 'easeInOutQuad',
+        complete: () => {
+          currentImg.style.left = '100%';
+          currentImg.style.transform = 'translateX(0)';
+          nextImg.style.left = '0%';
+          nextImg.style.transform = 'translateX(0)';
+        }
+      });
+      
+      currentIndex = newIndex;
+    }
+    
+    nextBtn.addEventListener('click', () => {
+      const nextIndex = (currentIndex + 1) % images.length;
+      slideToImage(nextIndex, 'next');
+      
+      anime({
+        targets: nextBtn,
+        scale: [1, 0.9, 1],
+        duration: 200
+      });
+    });
+    
+    prevBtn.addEventListener('click', () => {
+      const prevIndex = (currentIndex - 1 + images.length) % images.length;
+      slideToImage(prevIndex, 'prev');
+      
+      anime({
+        targets: prevBtn,
+        scale: [1, 0.9, 1],
+        duration: 200
+      });
+    });
+    
+    autoSlideBtn.addEventListener('click', () => {
+      if (isAutoSliding) {
+        clearInterval(autoSlideInterval);
+        autoSlideBtn.textContent = 'Auto Slide';
+        autoSlideBtn.style.background = 'linear-gradient(45deg, #4facfe, #00f2fe)';
+        isAutoSliding = false;
+      } else {
+        autoSlideInterval = setInterval(() => {
+          const nextIndex = (currentIndex + 1) % images.length;
+          slideToImage(nextIndex, 'next');
+        }, 3000);
+        autoSlideBtn.textContent = 'Parar Auto';
+        autoSlideBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a24)';
+        isAutoSliding = true;
+      }
+      
+      anime({
+        targets: autoSlideBtn,
+        scale: [1, 0.95, 1],
+        duration: 200
+      });
+    });
+
+    // ==================== EXERCÍCIO 3: PARALLAX ====================
+    
+    const parallaxElement = document.getElementById('parallax-element');
+    
+    window.addEventListener('scroll', () => {
+      try {
+        const scrollY = window.scrollY;
+        const speed = 0.5;
+        
+        parallaxElement.style.transform = `translateY(${scrollY * speed}px)`;
+        
+        // Efeito adicional de rotação sutil
+        const rotation = scrollY * 0.05;
+        parallaxElement.style.transform += ` rotate(${rotation}deg)`;
+        
+        // Mudança de cor baseada no scroll
+        const hue = (scrollY * 0.2) % 360;
+        parallaxElement.style.filter = `hue-rotate(${hue}deg)`;
+        
+      } catch (e) {
+        console.error('Erro no parallax:', e);
+      }
+    });
+
+    // ==================== DESAFIOS EXTRAS ====================
+    
+    // Elementos que "pulam"
+    const jumpContainer = document.getElementById('jump-elements');
+    
+    for (let i = 0; i < 8; i++) {
+      const jumpElement = document.createElement('div');
+      jumpElement.className = 'jump-element';
+      jumpContainer.appendChild(jumpElement);
+      
+      jumpElement.addEventListener('click', () => {
+        anime({
+          targets: jumpElement,
+          translateY: [0, -50, 0],
+          scale: [1, 1.2, 1],
+          rotate: [0, 360],
+          duration: 600,
+          easing: 'easeOutElastic(1, .6)'
+        });
+        
+        // Efeito ripple
+        const ripple = document.createElement('div');
+        ripple.style.position = 'absolute';
+        ripple.style.width = '10px';
+        ripple.style.height = '10px';
+        ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+        ripple.style.borderRadius = '50%';
+        ripple.style.left = '50%';
+        ripple.style.top = '50%';
+        ripple.style.transform = 'translate(-50%, -50%)';
+        ripple.style.pointerEvents = 'none';
+        jumpElement.style.position = 'relative';
+        jumpElement.appendChild(ripple);
+        
+        anime({
+          targets: ripple,
+          scale: [0, 3],
+          opacity: [0.6, 0],
+          duration: 600,
+          easing: 'easeOutExpo',
+          complete: () => ripple.remove()
+        });
+      });
+    }
+    
+    // Animar cards no hover
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        anime({
+          targets: card,
+          scale: 1.05,
+          rotateY: 5,
+          duration: 300,
+          easing: 'easeOutQuad'
+        });
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        anime({
+          targets: card,
+          scale: 1,
+          rotateY: 0,
+          duration: 300,
+          easing: 'easeOutQuad'
+        });
+      });
+    });
+
+    // ==================== ANIMAÇÕES CONTÍNUAS ====================
+    
+    // Animação contínua do header
+    anime({
+      targets: '#main-title',
+      textShadow: [
+        '0 2px 20px rgba(255, 255, 255, 0.3)',
+        '0 2px 30px rgba(255, 255, 255, 0.6)',
+        '0 2px 20px rgba(255, 255, 255, 0.3)'
+      ],
+      duration: 3000,
+      loop: true,
+      direction: 'alternate',
+      easing: 'easeInOutSine'
+    });
+    
+    // Respiração sutil das seções
+    anime({
+      targets: '.section',
+      scale: [1, 1.01, 1],
+      duration: 4000,
+      loop: true,
+      direction: 'alternate',
+      easing: 'easeInOutSine',
+      delay: anime.stagger(500)
+    });
+
+    console.log('🎉 Animações carregadas com sucesso!');
+    console.log('📚 Esta aula demonstra:');
+    console.log('- requestAnimationFrame para animações suaves');
+    console.log('- setInterval/setTimeout para controle temporal');
+    console.log('- Manipulação de propriedades DOM');
+    console.log('- Integração com Anime.js para efeitos avançados');
+    console.log('- Efeitos parallax e interações complexas');
+  </script>
+</body>
+</html>
