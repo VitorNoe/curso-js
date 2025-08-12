@@ -43,7 +43,7 @@ function renderEventos() {
       statusMsg.textContent = 'Enviando...';
       statusMsg.className = 'status-msg';
       try {
-        const resp = await fetch('backend/inscrever.php', {
+        const resp = await fetch('http://172.20.48.12/inscrever.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nome, email, evento_id: ev.id })
