@@ -25,7 +25,9 @@ function renderEventos(eventos) {
 function carregarEventos() {
   loader.style.display = 'block';
   erroMsg.textContent = '';
-  fetch('backend/events_api.php')
+
+
+  fetch('http://localhost/events_api.php')
     .then(r => r.json())
     .then(data => {
       renderEventos(data);

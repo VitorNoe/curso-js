@@ -7,8 +7,22 @@ if (!isset($_SESSION['admin'])) {
     exit;
 }
 
-$db = new PDO('sqlite:../../aula-17/backend/eventos.db');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$dbFile = 'eventos.db';
+if (!file_exists($dbFile)) {
+    $db = new PDO('sqlite:' . $dbFile);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db->exec('CREATE TABLE IF NOT EXISTS eventos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        data TEXT NOT NULL,
+        local TEXT NOT NULL,
+        descricao TEXT
+    )');
+} else {
+    $db = new PDO('sqlite:' . $dbFile);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':

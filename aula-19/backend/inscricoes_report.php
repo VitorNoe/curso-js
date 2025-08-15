@@ -7,24 +7,36 @@ if (!isset($_SESSION['admin'])) {
     exit;
 }
 
-$db = new PDO('sqlite:../../aula-17/backend/eventos.db');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$sql = 'SELECT i.id, i.nome, i.email, i.data, e.nome as evento_nome FROM inscricoes i JOIN eventos e ON i.evento_id = e.id ORDER BY i.data DESC';
+$dbFile = 'eventos.db';
+$db = new PDO('sqlite:' . $dbFile);
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Cria as tabelas se não existirem
+$db->exec('CREATE TABLE IF NOT EXISTS eventos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    data TEXT NOT NULL,
+    local TEXT NOT NULL,
+    descricao TEXT
+)');
+
+$sql = 'SELECT id, nome, data, local, descricao FROM eventos ORDER BY data DESC';
 $stmt = $db->query($sql);
-$inscricoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_GET['csv'])) {
     header('Content-Type: text/csv');
-    header('Content-Disposition: attachment; filename="inscricoes.csv"');
+    header('Content-Disposition: attachment; filename="eventos.csv"');
     $out = fopen('php://output', 'w');
-    fputcsv($out, array_keys($inscricoes[0]));
-    foreach ($inscricoes as $row) {
-        fputcsv($out, $row);
+    if (!empty($eventos)) {
+        fputcsv($out, array_keys($eventos[0]));
+        foreach ($eventos as $row) {
+            fputcsv($out, $row);
+        }
     }
     fclose($out);
     exit;
 }
 
 header('Content-Type: application/json');
-echo json_encode($inscricoes);
+echo json_encode($eventos);
